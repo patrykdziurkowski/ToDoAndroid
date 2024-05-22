@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.todoandroid.databinding.FragmentTasksBinding;
 
-public class TasksFragment extends Fragment {
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
+public class TasksFragment extends Fragment {
     private FragmentTasksBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
