@@ -9,11 +9,10 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 public class TaskRepository {
-    @Inject
-    public TaskRepository() {}
+    private final ArrayList<Task> tasks = new ArrayList<>();
 
-    public List<Task> getTasks() {
-        ArrayList<Task> tasks = new ArrayList<>();
+    @Inject
+    public TaskRepository() {
         tasks.add(new Task(
                 UUID.randomUUID(),
                 "Go hiking on Saturday",
@@ -34,6 +33,29 @@ public class TaskRepository {
                 new Date(2020, 8, 19),
                 new Date(2020, 8, 30)
         ));
+    }
+
+    public List<Task> getTasks() {
         return tasks;
+    }
+
+    public void save(Task task) {
+        if (tasks.stream().noneMatch(
+                (t) -> t.getId() == task.getId())) {
+            tasks.add(task);
+            return;
+        }
+
+        Task taskToUpdate = tasks.stream()
+                .filter((t) -> {
+                    return t.getId() == task.getId();
+                })
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("Task with id " + task.getId() + " should have been found"));
+        taskToUpdate
+                .setTitle(task.getTitle())
+                .setDescription(task.getDescription())
+                .setCompleted(task.isCompleted())
+                .setDeadline(task.getDeadline())
+                .setPriority(task.getPriority());
     }
 }

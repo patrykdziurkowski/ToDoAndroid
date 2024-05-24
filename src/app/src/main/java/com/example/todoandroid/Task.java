@@ -38,6 +38,31 @@ public class Task {
         this(id, title, description, null, dateAdded);
     }
 
+    public Task setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public Task setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Task setCompleted(boolean completed) {
+        isCompleted = completed;
+        return this;
+    }
+
+    public Task setDeadline(Date deadline) {
+        this.deadline = deadline;
+        return this;
+    }
+
+    public Task setPriority(TaskPriority priority) {
+        this.priority = priority;
+        return this;
+    }
+
     public UUID getId() { return id; }
 
     public String getTitle() {
