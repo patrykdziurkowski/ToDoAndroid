@@ -1,22 +1,26 @@
 package com.example.todoandroid;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Task {
+    private final UUID id;
     private String title;
     private String description;
     private boolean isCompleted;
-    private Date dateAdded;
+    private final Date dateAdded;
     private Date deadline;
     private TaskPriority priority;
     public enum TaskPriority { IMPORTANT, NORMAL }
 
     public Task(
+            UUID id,
             String title,
             String description,
             Date deadline,
             Date dateAdded
     ) {
+        this.id = id;
         this.title = title;
         this.description = description;
         isCompleted = false;
@@ -26,12 +30,15 @@ public class Task {
     }
 
     public Task(
+            UUID id,
             String title,
             String description,
             Date dateAdded
     ) {
-        this(title, description, null, dateAdded);
+        this(id, title, description, null, dateAdded);
     }
+
+    public UUID getId() { return id; }
 
     public String getTitle() {
         return title;
