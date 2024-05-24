@@ -10,6 +10,7 @@ public class Task {
     private boolean isCompleted;
     private final Date dateAdded;
     private Date deadline;
+    private boolean isMarkedForDeletion;
     private TaskPriority priority;
     public enum TaskPriority { IMPORTANT, NORMAL }
 
@@ -58,6 +59,11 @@ public class Task {
         return this;
     }
 
+    public Task setMarkedForDeletion(boolean markedForDeletion) {
+        isMarkedForDeletion = markedForDeletion;
+        return this;
+    }
+
     public Task setPriority(TaskPriority priority) {
         this.priority = priority;
         return this;
@@ -80,6 +86,8 @@ public class Task {
     public Date getDateAdded() {
         return dateAdded;
     }
+
+    public boolean isMarkedForDeletion() { return isMarkedForDeletion; }
 
     public Date getDeadline() {
         return deadline;

@@ -78,4 +78,20 @@ public class TaskRepositoryTests {
         assertEquals(new Date(2023, 7, 15), task.getDeadline());
     }
 
+    @Test
+    public void save_removesATask_thatsMarkedForDeletion() {
+        TaskRepository taskRepository = new TaskRepository();
+        UUID taskId = UUID.randomUUID();
+        Task task = new Task(
+                taskId,
+                "My new task",
+                "",
+                new Date(2020, 6, 24));
+        task.setMarkedForDeletion(true);
+
+        taskRepository.save(task);
+
+        assertTrue(taskRepository.getTasks().stream()
+                .noneMatch((t) -> t.getId() == taskId));
+    }
 }

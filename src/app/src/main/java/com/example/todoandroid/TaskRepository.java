@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -40,22 +41,26 @@ public class TaskRepository {
     }
 
     public void save(Task task) {
-        if (tasks.stream().noneMatch(
-                (t) -> t.getId() == task.getId())) {
+        Optional<Task> taskToChange = tasks.stream()
+                .filter((t) -> { return t.getId() == task.getId(); })
+                .findFirst();
+
+        if (!taskToChange.isPresent()) {
             tasks.add(task);
-            return;
         }
 
         Task taskToUpdate = tasks.stream()
-                .filter((t) -> {
-                    return t.getId() == task.getId();
-                })
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("Task with id " + task.getId() + " should have been found"));
+                .filter((t) -> { return t.getId() == task.getId(); })
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Element previously added not found in repository"));
         taskToUpdate
                 .setTitle(task.getTitle())
                 .setDescription(task.getDescription())
                 .setCompleted(task.isCompleted())
                 .setDeadline(task.getDeadline())
                 .setPriority(task.getPriority());
+        if (task.isMarkedForDeletion()) {
+            tasks.remove(taskToUpdate);
+        }
     }
 }
