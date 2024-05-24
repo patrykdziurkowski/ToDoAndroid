@@ -40,6 +40,12 @@ public class TaskRepository {
         return tasks;
     }
 
+    public Optional<Task> getTaskById(UUID id) {
+        return tasks.stream()
+                .filter((t) -> t.getId() == id)
+                .findFirst();
+    }
+
     public void save(Task task) {
         Optional<Task> taskToChange = tasks.stream()
                 .filter((t) -> { return t.getId() == task.getId(); })

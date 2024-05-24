@@ -1,17 +1,46 @@
 package com.example.todoandroid;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TaskRepositoryTests {
+    @Test
+    public void getTaskById_returnsTask_whenIdMatchFound() {
+        TaskRepository taskRepository = new TaskRepository();
+        UUID id = UUID.randomUUID();
+        Task newTask = new Task(
+                id,
+                "My new task",
+                "",
+                new Date(2020, 6, 24));
+        taskRepository.save(newTask);
+
+        Optional<Task> task = taskRepository.getTaskById(id);
+
+        assertTrue(task.isPresent());
+        assertEquals("My new task", task.get().getTitle());
+    }
+
+    @Test
+    public void getTaskById_returnsEmpty_whenIdMatchNotFound() {
+        TaskRepository taskRepository = new TaskRepository();
+        UUID id = UUID.randomUUID();
+
+        Optional<Task> task = taskRepository.getTaskById(id);
+
+        assertFalse(task.isPresent());
+    }
+
     @Test
     public void save_addsNewTask_whenItsUuidNotInRepository() {
         TaskRepository taskRepository = new TaskRepository();
