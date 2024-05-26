@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.todoandroid.R;
 import com.example.todoandroid.Task;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
-    private final List<Task> tasks;
+    private List<Task> tasks;
+    private OnClickListener onClickListener;
+
     public TasksAdapter(List<Task> tasks) {
         this.tasks = tasks;
     }
@@ -34,11 +34,28 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull TasksAdapter.ViewHolder holder, int position) {
         holder.getTitle().setText(tasks.get(position).getTitle());
         holder.getDescription().setText(tasks.get(position).getDescription());
+        holder.itemView.findViewById(R.id.remove_task_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null) {
+                    onClickListener.onClick(position, tasks.get(position));
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return tasks.size();
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,4 +77,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         }
     }
 
+    public interface OnClickListener {
+        void onClick(int position, Task task);
+    }
 }
