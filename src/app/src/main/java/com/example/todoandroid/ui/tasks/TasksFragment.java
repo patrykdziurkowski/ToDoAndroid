@@ -22,6 +22,8 @@ import com.example.todoandroid.CreateTaskActivity;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -36,19 +38,22 @@ public class TasksFragment extends Fragment {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent intent = result.getData();
-                        if (intent == null) return;
-                        Bundle data = intent.getExtras();
-                        if (data == null) return;
+                    if (result.getResultCode() != Activity.RESULT_OK) { return; }
 
+                    Intent intent = result.getData();
+                    if (intent == null) return;
+                    Bundle data = intent.getExtras();
+                    if (data == null) return;
+
+                    try {
                         viewModel.addTask(
                                 data.getString("title"),
                                 data.getString("description"),
-                                new Date(),
+                                new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline")),
                                 new Date()
                         );
-
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             });
@@ -81,7 +86,6 @@ public class TasksFragment extends Fragment {
                 viewModel.removeTask(task.getId());
             }
         });
-
 
         return binding.getRoot();
     }
