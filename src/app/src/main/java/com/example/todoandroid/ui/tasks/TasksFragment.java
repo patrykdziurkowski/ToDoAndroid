@@ -84,7 +84,10 @@ public class TasksFragment extends Fragment {
                                     new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline")),
                                     new Date());
                         } catch (ParseException e) {
-                            throw new RuntimeException(e);
+                            viewModel.addTask(
+                                    data.getString("title"),
+                                    data.getString("description"),
+                                    new Date());
                         }
                     }
                 });

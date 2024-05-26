@@ -45,6 +45,23 @@ public class TasksViewModel extends ViewModel {
         tasks.setValue(newTasks);
     }
 
+    public void addTask(
+            String title,
+            String description,
+            Date dateAdded
+    ) {
+        Task task = new Task(
+                UUID.randomUUID(),
+                title,
+                description,
+                dateAdded
+        );
+        List<Task> newTasks = tasks.getValue();
+        newTasks.add(task);
+        taskRepository.save(task);
+        tasks.setValue(newTasks);
+    }
+
     public void removeTask(UUID id) {
         Optional<Task> taskResult = taskRepository.getTaskById(id);
         if (!taskResult.isPresent()) return;
