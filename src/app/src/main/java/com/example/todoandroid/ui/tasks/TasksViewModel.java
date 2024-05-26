@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.TaskRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,6 +24,25 @@ public class TasksViewModel extends ViewModel {
     public TasksViewModel(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
         tasks.setValue(taskRepository.getTasks());
+    }
+
+    public void addTask(
+            String title,
+            String description,
+            Date deadline,
+            Date dateAdded
+    ) {
+        Task task = new Task(
+                UUID.randomUUID(),
+                title,
+                description,
+                deadline,
+                dateAdded
+        );
+        List<Task> newTasks = tasks.getValue();
+        newTasks.add(task);
+        taskRepository.save(task);
+        tasks.setValue(newTasks);
     }
 
     public void removeTask(UUID id) {
