@@ -33,61 +33,68 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class TasksFragment extends Fragment {
     private FragmentTasksBinding binding;
     private TasksViewModel viewModel;
-    private final ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() != Activity.RESULT_OK) { return; }
-
-                    Intent intent = result.getData();
-                    if (intent == null) return;
-                    Bundle data = intent.getExtras();
-                    if (data == null) return;
-
-                    try {
-                        viewModel.addTask(
-                                data.getString("title"),
-                                data.getString("description"),
-                                new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline")),
-                                new Date()
-                        );
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            });
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(TasksViewModel.class);
         binding = FragmentTasksBinding.inflate(inflater, container, false);
 
+        setupRecyclerView();
+        setupTaskCreationActivityLauncher();
+
+        return binding.getRoot();
+    }
+
+    private void setupRecyclerView() {
         TasksAdapter adapter = new TasksAdapter(viewModel.getTasks().getValue());
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        binding.addTaskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createTaskIntent = new Intent(getActivity(), CreateTaskActivity.class);
-                someActivityResultLauncher.launch(createTaskIntent);
-            }
-        });
         viewModel.getTasks().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 adapter.setTasks(tasks);
             }
         });
-        adapter.setOnClickListener(new TasksAdapter.OnClickListener() {
+        adapter.setOnClickListener(new TasksAdapter.HolderClickListener() {
             public void onClick(int position, Task task) {
                 viewModel.removeTask(task.getId());
             }
         });
+    }
 
-        return binding.getRoot();
+    private void setupTaskCreationActivityLauncher() {
+        ActivityResultLauncher<Intent> taskCreationActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() != Activity.RESULT_OK) { return; }
+
+                        Intent intent = result.getData();
+                        if (intent == null) return;
+                        Bundle data = intent.getExtras();
+                        if (data == null) return;
+
+                        try {
+                            viewModel.addTask(
+                                    data.getString("title"),
+                                    data.getString("description"),
+                                    new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline")),
+                                    new Date());
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+        binding.addTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent createTaskIntent = new Intent(getActivity(), CreateTaskActivity.class);
+                taskCreationActivityLauncher.launch(createTaskIntent);
+            }
+        });
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
     private List<Task> tasks;
-    private OnClickListener onClickListener;
+    private HolderClickListener holderClickListener;
 
     public TasksAdapter(List<Task> tasks) {
         this.tasks = tasks;
@@ -37,8 +37,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         holder.itemView.findViewById(R.id.remove_task_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onClickListener != null) {
-                    onClickListener.onClick(position, tasks.get(position));
+                if (holderClickListener != null) {
+                    holderClickListener.onClick(position, tasks.get(position));
                 }
             }
         });
@@ -49,8 +49,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         return tasks.size();
     }
 
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
+    public void setOnClickListener(HolderClickListener holderClickListener) {
+        this.holderClickListener = holderClickListener;
     }
 
     public void setTasks(List<Task> tasks) {
@@ -77,7 +77,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         }
     }
 
-    public interface OnClickListener {
+    public interface HolderClickListener {
         void onClick(int position, Task task);
     }
 }
