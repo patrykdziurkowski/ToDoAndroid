@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -18,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todoandroid.BaseActivityResult;
 import com.example.todoandroid.CreateTaskActivity;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
@@ -33,6 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class TasksFragment extends Fragment {
     private FragmentTasksBinding binding;
     private TasksViewModel viewModel;
+    private final BaseActivityResult<Intent, ActivityResult> activityLauncher = BaseActivityResult.registerActivityForResult(this);
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,39 +64,39 @@ public class TasksFragment extends Fragment {
     }
 
     private void setupTaskCreationActivityLauncher() {
-        ActivityResultLauncher<Intent> taskCreationActivityLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() != Activity.RESULT_OK) { return; }
-
-                        Intent intent = result.getData();
-                        if (intent == null) return;
-                        Bundle data = intent.getExtras();
-                        if (data == null) return;
-
-                        try {
-                            viewModel.addTask(
-                                    data.getString("title"),
-                                    data.getString("description"),
-                                    new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline")),
-                                    new Date());
-                        } catch (ParseException e) {
-                            viewModel.addTask(
-                                    data.getString("title"),
-                                    data.getString("description"),
-                                    new Date());
-                        }
-                    }
-                });
         binding.addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent createTaskIntent = new Intent(getActivity(), CreateTaskActivity.class);
-                taskCreationActivityLauncher.launch(createTaskIntent);
+                activityLauncher.launch(createTaskIntent, result -> {
+                    createTaskResult(result);
+                });
             }
         });
+    }
+
+    private void createTaskResult(ActivityResult result) {
+        if (result.getResultCode() != Activity.RESULT_OK) {
+            return;
+        }
+
+        Intent intent = result.getData();
+        if (intent == null) return;
+        Bundle data = intent.getExtras();
+        if (data == null) return;
+
+        try {
+            viewModel.addTask(
+                    data.getString("title"),
+                    data.getString("description"),
+                    new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline")),
+                    new Date());
+        } catch (ParseException e) {
+            viewModel.addTask(
+                    data.getString("title"),
+                    data.getString("description"),
+                    new Date());
+        }
     }
 
     @Override
