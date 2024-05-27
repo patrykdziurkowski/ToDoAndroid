@@ -56,9 +56,15 @@ public class TasksFragment extends Fragment {
                 adapter.setTasks(tasks);
             }
         });
-        adapter.setOnClickListener(new TasksAdapter.HolderClickListener() {
+        adapter.setOnDeleteClickListener(new TasksAdapter.HolderClickListener() {
             public void onClick(int position, Task task) {
                 viewModel.removeTask(task.getId());
+            }
+        });
+        adapter.setOnCompleteClickListener(new TasksAdapter.HolderClickListener() {
+            @Override
+            public void onClick(int position, Task task) {
+                viewModel.toggleTaskCompletion(task.getId());
             }
         });
     }

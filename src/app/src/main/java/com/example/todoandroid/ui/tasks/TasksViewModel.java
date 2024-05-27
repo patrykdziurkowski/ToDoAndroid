@@ -72,6 +72,16 @@ public class TasksViewModel extends ViewModel {
         tasks.setValue(taskRepository.getTasks());
     }
 
+    public void toggleTaskCompletion(UUID id) {
+        Optional<Task> taskResult = taskRepository.getTaskById(id);
+        if (!taskResult.isPresent()) return;
+
+        Task task = taskResult.get();
+        task.setCompleted(!task.isCompleted());
+        taskRepository.save(task);
+        tasks.setValue(taskRepository.getTasks());
+    }
+
     public LiveData<List<Task>> getTasks() {
         return tasks;
     }

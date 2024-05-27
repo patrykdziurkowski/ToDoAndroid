@@ -1,5 +1,6 @@
 package com.example.todoandroid.ui.tasks;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,8 @@ import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
     private List<Task> tasks;
-    private HolderClickListener holderClickListener;
+    private HolderClickListener holderDeleteClickListener;
+    private HolderClickListener holderCompleteClickListener;
 
     public TasksAdapter(List<Task> tasks) {
         this.tasks = tasks;
@@ -34,11 +36,22 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull TasksAdapter.ViewHolder holder, int position) {
         holder.getTitle().setText(tasks.get(position).getTitle());
         holder.getDescription().setText(tasks.get(position).getDescription());
+        boolean completionStatus = tasks.get(position).isCompleted();
+        holder.setCompleted(completionStatus);
+
         holder.itemView.findViewById(R.id.remove_task_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holderClickListener != null) {
-                    holderClickListener.onClick(position, tasks.get(position));
+                if (holderDeleteClickListener != null) {
+                    holderDeleteClickListener.onClick(position, tasks.get(position));
+                }
+            }
+        });
+        holder.itemView.findViewById(R.id.mark_completed_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holderCompleteClickListener != null) {
+                    holderCompleteClickListener.onClick(position, tasks.get(position));
                 }
             }
         });
@@ -49,8 +62,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         return tasks.size();
     }
 
-    public void setOnClickListener(HolderClickListener holderClickListener) {
-        this.holderClickListener = holderClickListener;
+    public void setOnDeleteClickListener(HolderClickListener holderDeleteClickListener) {
+        this.holderDeleteClickListener = holderDeleteClickListener;
+    }
+
+    public void setOnCompleteClickListener(HolderClickListener holderCompleteClickListener) {
+        this.holderCompleteClickListener = holderCompleteClickListener;
     }
 
     public void setTasks(List<Task> tasks) {
@@ -74,6 +91,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
         public TextView getDescription() {
             return description;
+        }
+
+        public ViewHolder setCompleted(boolean completed) {
+            int color = (completed) ? Color.GREEN : Color.GRAY;
+            this.itemView.findViewById(R.id.task_card).setBackgroundColor(color);
+            return this;
         }
     }
 
