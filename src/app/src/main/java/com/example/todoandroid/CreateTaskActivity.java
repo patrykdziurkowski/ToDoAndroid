@@ -68,5 +68,13 @@ public class CreateTaskActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        binding.cancelAddingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
     }
 }
