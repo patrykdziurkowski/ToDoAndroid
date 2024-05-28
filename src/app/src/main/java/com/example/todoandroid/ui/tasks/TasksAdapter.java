@@ -2,21 +2,21 @@ package com.example.todoandroid.ui.tasks;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoandroid.R;
 import com.example.todoandroid.Task;
+import com.example.todoandroid.databinding.FrameTaskBinding;
 
 import java.util.List;
 
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> {
+public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> {
     private List<Task> tasks;
     private HolderClickListener holderDeleteClickListener;
     private HolderClickListener holderCompleteClickListener;
@@ -29,22 +29,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public TasksAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.frame_task, parent, false);
+    public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        FrameTaskBinding holderBinding = FrameTaskBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false);
 
-        return new ViewHolder(view);
+        return new TaskHolder(holderBinding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TasksAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         Task currentTask = tasks.get(position);
         holder.getTitle().setText(currentTask.getTitle());
         holder.getDescription().setText(currentTask.getDescription());
         holder.setCompleted(currentTask.isCompleted());
         holder.setImportant(currentTask.getPriority() == Task.TaskPriority.IMPORTANT);
 
-        holder.itemView.findViewById(R.id.remove_task_button).setOnClickListener(new View.OnClickListener() {
+        holder.getDeleteButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holderDeleteClickListener != null) {
@@ -52,7 +54,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 }
             }
         });
-        holder.itemView.findViewById(R.id.mark_completed_button).setOnClickListener(new View.OnClickListener() {
+        holder.getCompleteToggle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holderCompleteClickListener != null) {
@@ -60,7 +62,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 }
             }
         });
-        holder.itemView.findViewById(R.id.mark_important_button).setOnClickListener(new View.OnClickListener() {
+        holder.getImportantToggle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holderImportantClickListener != null) {
@@ -136,32 +138,42 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final EditText title;
-        private final EditText description;
+    public static class TaskHolder extends RecyclerView.ViewHolder {
+        private final FrameTaskBinding binding;
 
-        public ViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.card_title);
-            description = view.findViewById(R.id.card_description);
+        public TaskHolder(FrameTaskBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public EditText getTitle() {
-            return title;
+            return binding.cardTitle;
         }
 
         public EditText getDescription() {
-            return description;
+            return binding.cardDescription;
+        }
+
+        public Button getImportantToggle() {
+            return binding.markImportantButton;
+        }
+
+        public Button getCompleteToggle() {
+            return binding.markCompletedButton;
+        }
+
+        public Button getDeleteButton() {
+            return binding.removeTaskButton;
         }
 
         public void setCompleted(boolean completed) {
             int color = (completed) ? Color.GREEN : Color.GRAY;
-            this.itemView.findViewById(R.id.task_card).setBackgroundColor(color);
+            binding.taskCard.setBackgroundColor(color);
         }
 
         public void setImportant(boolean important) {
             int color = (important) ? Color.RED : Color.LTGRAY;
-            this.itemView.findViewById(R.id.mark_important_button).setBackgroundColor(color);
+            binding.markImportantButton.setBackgroundColor(color);
         }
     }
 
