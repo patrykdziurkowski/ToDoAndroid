@@ -84,6 +84,7 @@ public class TasksViewModel extends ViewModel {
 
     public void save(Task task) {
         taskRepository.save(task);
+        tasks.setValue(taskRepository.getTasks());
     }
 
     public LiveData<List<Task>> getTasks() {
