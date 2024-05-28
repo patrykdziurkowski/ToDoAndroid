@@ -84,6 +84,12 @@ public class TasksFragment extends Fragment {
                 viewModel.save(task);
             }
         });
+        adapter.setOnDateClickListener(new TasksAdapter.HolderClickListener() {
+            @Override
+            public void onClick(Task task) {
+                viewModel.save(task);
+            }
+        });
     }
 
     private void setupTaskCreationActivityLauncher() {
