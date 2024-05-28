@@ -34,6 +34,7 @@ public class TaskRepository {
                 new Date(2020, 8, 19),
                 new Date(2020, 8, 30)
         ));
+        tasks.get(1).setPriority(Task.TaskPriority.IMPORTANT);
     }
 
     public List<Task> getTasks() {

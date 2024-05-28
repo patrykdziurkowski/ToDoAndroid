@@ -73,6 +73,16 @@ public class TasksFragment extends Fragment {
                 viewModel.save(task);
             }
         });
+        adapter.setOnImportantClickListener(new TasksAdapter.HolderClickListener() {
+            @Override
+            public void onClick(Task task) {
+                Task.TaskPriority priority = (task.getPriority() == Task.TaskPriority.NORMAL) ?
+                        Task.TaskPriority.IMPORTANT :
+                        Task.TaskPriority.NORMAL;
+                task.setPriority(priority);
+                viewModel.save(task);
+            }
+        });
     }
 
     private void setupTaskCreationActivityLauncher() {

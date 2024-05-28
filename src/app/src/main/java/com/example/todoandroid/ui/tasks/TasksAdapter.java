@@ -21,6 +21,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     private HolderClickListener holderDeleteClickListener;
     private HolderClickListener holderCompleteClickListener;
     private HolderClickListener holderEditClickListener;
+    private HolderClickListener holderImportantClickListener;
 
     public TasksAdapter(List<Task> tasks) {
         this.tasks = tasks;
@@ -41,6 +42,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         holder.getTitle().setText(currentTask.getTitle());
         holder.getDescription().setText(currentTask.getDescription());
         holder.setCompleted(currentTask.isCompleted());
+        holder.setImportant(currentTask.getPriority() == Task.TaskPriority.IMPORTANT);
 
         holder.itemView.findViewById(R.id.remove_task_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +60,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 }
             }
         });
+        holder.itemView.findViewById(R.id.mark_important_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holderImportantClickListener != null) {
+                    holderImportantClickListener.onClick(currentTask);
+                }
+            }
+        });
+
         holder.getTitle().setFocusable(false);
         holder.getTitle().setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -116,6 +127,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         this.holderEditClickListener = holderEditClickListener;
     }
 
+    public void setOnImportantClickListener(HolderClickListener holderImportantClickListener) {
+        this.holderImportantClickListener = holderImportantClickListener;
+    }
+
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged();
@@ -139,10 +154,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             return description;
         }
 
-        public ViewHolder setCompleted(boolean completed) {
+        public void setCompleted(boolean completed) {
             int color = (completed) ? Color.GREEN : Color.GRAY;
             this.itemView.findViewById(R.id.task_card).setBackgroundColor(color);
-            return this;
+        }
+
+        public void setImportant(boolean important) {
+            int color = (important) ? Color.RED : Color.LTGRAY;
+            this.itemView.findViewById(R.id.mark_important_button).setBackgroundColor(color);
         }
     }
 

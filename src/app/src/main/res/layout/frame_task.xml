@@ -23,15 +23,16 @@
 
             <EditText
                 android:id="@+id/card_title"
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:ems="10"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:singleLine="false"
                 android:text="Name"
+                app:layout_constraintBottom_toBottomOf="@+id/mark_important_button"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@+id/mark_important_button" />
 
             <EditText
                 android:id="@+id/card_description"
@@ -64,6 +65,14 @@
                 android:layout_height="48dp"
                 android:text="V"
                 app:layout_constraintEnd_toStartOf="@+id/remove_task_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/mark_important_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="*"
+                app:layout_constraintEnd_toStartOf="@+id/mark_completed_button"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
