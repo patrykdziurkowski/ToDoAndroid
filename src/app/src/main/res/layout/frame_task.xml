@@ -21,26 +21,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <EditText
                 android:id="@+id/card_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="text"
+                android:singleLine="false"
+                android:text="Name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <EditText
                 android:id="@+id/card_description"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"
-                android:text="TextView"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="24dp"
+                android:background="@null"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:nestedScrollingEnabled="false"
+                android:singleLine="false"
+                android:text="Name"
+                app:layout_constraintEnd_toEndOf="@+id/remove_task_button"
+                app:layout_constraintStart_toStartOf="@+id/card_title"
                 app:layout_constraintTop_toBottomOf="@+id/card_title" />
 
             <Button

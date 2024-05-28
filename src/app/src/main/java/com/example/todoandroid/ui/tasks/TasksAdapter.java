@@ -2,8 +2,10 @@ package com.example.todoandroid.ui.tasks;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +20,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     private List<Task> tasks;
     private HolderClickListener holderDeleteClickListener;
     private HolderClickListener holderCompleteClickListener;
+    private HolderClickListener holderEditClickListener;
 
     public TasksAdapter(List<Task> tasks) {
         this.tasks = tasks;
@@ -34,16 +37,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull TasksAdapter.ViewHolder holder, int position) {
-        holder.getTitle().setText(tasks.get(position).getTitle());
-        holder.getDescription().setText(tasks.get(position).getDescription());
-        boolean completionStatus = tasks.get(position).isCompleted();
-        holder.setCompleted(completionStatus);
+        Task currentTask = tasks.get(position);
+        holder.getTitle().setText(currentTask.getTitle());
+        holder.getDescription().setText(currentTask.getDescription());
+        holder.setCompleted(currentTask.isCompleted());
 
         holder.itemView.findViewById(R.id.remove_task_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holderDeleteClickListener != null) {
-                    holderDeleteClickListener.onClick(position, tasks.get(position));
+                    holderDeleteClickListener.onClick(currentTask);
                 }
             }
         });
@@ -51,8 +54,47 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 if (holderCompleteClickListener != null) {
-                    holderCompleteClickListener.onClick(position, tasks.get(position));
+                    holderCompleteClickListener.onClick(currentTask);
                 }
+            }
+        });
+        holder.getTitle().setFocusable(false);
+        holder.getTitle().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                holder.getTitle().setFocusableInTouchMode(true);
+                return true;
+            }
+        });
+        holder.getTitle().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) return;
+                holder.getTitle().setFocusable(false);
+
+                if (holderEditClickListener == null) return;
+                currentTask.setTitle(String.valueOf(holder.getTitle().getText()));
+                holderEditClickListener.onClick(currentTask);
+            }
+        });
+
+        holder.getDescription().setFocusable(false);
+        holder.getDescription().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                holder.getDescription().setFocusableInTouchMode(true);
+                return true;
+            }
+        });
+        holder.getDescription().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) return;
+                holder.getDescription().setFocusable(false);
+
+                if (holderEditClickListener == null) return;
+                currentTask.setDescription(String.valueOf(holder.getDescription().getText()));
+                holderEditClickListener.onClick(currentTask);
             }
         });
     }
@@ -70,26 +112,30 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         this.holderCompleteClickListener = holderCompleteClickListener;
     }
 
+    public void setOnEditClickListener(HolderClickListener holderEditClickListener) {
+        this.holderEditClickListener = holderEditClickListener;
+    }
+
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView title;
-        private final TextView description;
+        private final EditText title;
+        private final EditText description;
 
         public ViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.card_title);
-            description = (TextView) view.findViewById(R.id.card_description);
+            title = view.findViewById(R.id.card_title);
+            description = view.findViewById(R.id.card_description);
         }
 
-        public TextView getTitle() {
+        public EditText getTitle() {
             return title;
         }
 
-        public TextView getDescription() {
+        public EditText getDescription() {
             return description;
         }
 
@@ -101,6 +147,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     }
 
     public interface HolderClickListener {
-        void onClick(int position, Task task);
+        void onClick(Task task);
     }
 }
