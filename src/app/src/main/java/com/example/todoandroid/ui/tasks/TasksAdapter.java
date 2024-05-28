@@ -49,25 +49,22 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         holder.getDeleteButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holderDeleteClickListener != null) {
-                    holderDeleteClickListener.onClick(currentTask);
-                }
+                if (holderDeleteClickListener == null) { return; }
+                holderDeleteClickListener.onClick(currentTask);
             }
         });
         holder.getCompleteToggle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holderCompleteClickListener != null) {
-                    holderCompleteClickListener.onClick(currentTask);
-                }
+                if (holderCompleteClickListener == null) { return; }
+                holderCompleteClickListener.onClick(currentTask);
             }
         });
         holder.getImportantToggle().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holderImportantClickListener != null) {
-                    holderImportantClickListener.onClick(currentTask);
-                }
+                if (holderImportantClickListener == null) { return; }
+                holderImportantClickListener.onClick(currentTask);
             }
         });
 

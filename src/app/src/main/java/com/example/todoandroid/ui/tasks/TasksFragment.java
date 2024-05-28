@@ -56,6 +56,7 @@ public class TasksFragment extends Fragment {
                 adapter.setTasks(tasks);
             }
         });
+
         adapter.setOnDeleteClickListener(new TasksAdapter.HolderClickListener() {
             public void onClick(Task task) {
                 viewModel.removeTask(task.getId());
