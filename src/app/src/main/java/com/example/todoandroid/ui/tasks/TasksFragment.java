@@ -93,7 +93,7 @@ public class TasksFragment extends Fragment {
     }
 
     private void setupTaskCreationActivityLauncher() {
-        binding.addTaskButton.setOnClickListener(new View.OnClickListener() {
+        binding.tasksAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent createTaskIntent = new Intent(getActivity(), CreateTaskActivity.class);

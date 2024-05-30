@@ -8,7 +8,7 @@
     tools:context=".CreateTaskActivity">
 
     <EditText
-        android:id="@+id/title_editText"
+        android:id="@+id/create_task_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/description_editText"
+        android:id="@+id/create_task_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -29,10 +29,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/create_task_title" />
 
     <EditText
-        android:id="@+id/deadline_editDate"
+        android:id="@+id/create_task_deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -41,10 +41,10 @@
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/create_task_description" />
 
     <Button
-        android:id="@+id/finish_adding_button"
+        android:id="@+id/create_task_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="96dp"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/cancel_adding_button"
+        android:id="@+id/create_task_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"

@@ -48,17 +48,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         Task currentTask = tasks.get(position);
-        holder.binding.cardTitle.setText(currentTask.getTitle());
-        holder.binding.cardDescription.setText(currentTask.getDescription());
+        holder.binding.taskTitle.setText(currentTask.getTitle());
+        holder.binding.taskDescription.setText(currentTask.getDescription());
         holder.setCompleted(currentTask.isCompleted());
         holder.setImportant(currentTask.getPriority() == Task.TaskPriority.IMPORTANT);
-        holder.binding.dateAddedText.setText(currentTask.getDateAdded().toString());
+        holder.binding.taskDateAdded.setText(currentTask.getDateAdded().toString());
         if (currentTask.getDeadline() == null) {
-            holder.binding.deadlineContainer.setVisibility(View.INVISIBLE);
+            holder.binding.taskDeadlineContainer.setVisibility(View.INVISIBLE);
         } else {
-            holder.binding.deadlineContainer.setVisibility(View.VISIBLE);
-            holder.binding.cardDeadlineEdit.setText(currentTask.getDeadline().toString());
-            holder.binding.cardDeadlineEdit.setOnClickListener(new View.OnClickListener() {
+            holder.binding.taskDeadlineContainer.setVisibility(View.VISIBLE);
+            holder.binding.taskDeadline.setText(currentTask.getDeadline().toString());
+            holder.binding.taskDeadline.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Calendar c = Calendar.getInstance();
@@ -70,7 +70,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                             new DatePickerDialog.OnDateSetListener() {
                                 @Override
                                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                    holder.binding.cardDeadlineEdit.setText(String.format("%s-%s-%s", year, month, dayOfMonth));
+                                    holder.binding.taskDeadline.setText(String.format("%s-%s-%s", year, month, dayOfMonth));
                                     currentTask.setDeadline(new Date(year, month, dayOfMonth));
                                     holderDateClickListener.onClick(currentTask);
                                 }
@@ -81,21 +81,21 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             });
         }
 
-        holder.binding.removeTaskButton.setOnClickListener(new View.OnClickListener() {
+        holder.binding.taskRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holderDeleteClickListener == null) { return; }
                 holderDeleteClickListener.onClick(currentTask);
             }
         });
-        holder.binding.markCompletedButton.setOnClickListener(new View.OnClickListener() {
+        holder.binding.taskComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holderCompleteClickListener == null) { return; }
                 holderCompleteClickListener.onClick(currentTask);
             }
         });
-        holder.binding.markImportantButton.setOnClickListener(new View.OnClickListener() {
+        holder.binding.taskImportant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (holderImportantClickListener == null) { return; }
@@ -103,42 +103,42 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             }
         });
 
-        holder.binding.cardTitle.setFocusable(false);
-        holder.binding.cardTitle.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.binding.taskTitle.setFocusable(false);
+        holder.binding.taskTitle.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                holder.binding.cardTitle.setFocusableInTouchMode(true);
+                holder.binding.taskTitle.setFocusableInTouchMode(true);
                 return true;
             }
         });
-        holder.binding.cardTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        holder.binding.taskTitle.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) return;
-                holder.binding.cardTitle.setFocusable(false);
+                holder.binding.taskTitle.setFocusable(false);
 
                 if (holderEditClickListener == null) return;
-                currentTask.setTitle(String.valueOf(holder.binding.cardTitle.getText()));
+                currentTask.setTitle(String.valueOf(holder.binding.taskTitle.getText()));
                 holderEditClickListener.onClick(currentTask);
             }
         });
 
-        holder.binding.cardDescription.setFocusable(false);
-        holder.binding.cardDescription.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.binding.taskDescription.setFocusable(false);
+        holder.binding.taskDescription.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                holder.binding.cardDescription.setFocusableInTouchMode(true);
+                holder.binding.taskDescription.setFocusableInTouchMode(true);
                 return true;
             }
         });
-        holder.binding.cardDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        holder.binding.taskDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) return;
-                holder.binding.cardDescription.setFocusable(false);
+                holder.binding.taskDescription.setFocusable(false);
 
                 if (holderEditClickListener == null) return;
-                currentTask.setDescription(String.valueOf(holder.binding.cardDescription.getText()));
+                currentTask.setDescription(String.valueOf(holder.binding.taskDescription.getText()));
                 holderEditClickListener.onClick(currentTask);
             }
         });
@@ -189,7 +189,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
         public void setImportant(boolean important) {
             int color = (important) ? Color.RED : Color.LTGRAY;
-            binding.markImportantButton.setBackgroundColor(color);
+            binding.taskImportant.setBackgroundColor(color);
         }
     }
 

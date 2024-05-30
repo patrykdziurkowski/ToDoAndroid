@@ -35,7 +35,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding.deadlineEditDate.setOnClickListener(new View.OnClickListener() {
+        binding.createTaskDeadline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar c = Calendar.getInstance();
@@ -47,7 +47,7 @@ public class CreateTaskActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                binding.deadlineEditDate.setText(String.format("%s-%s-%s", year, month, dayOfMonth));
+                                binding.createTaskDeadline.setText(String.format("%s-%s-%s", year, month, dayOfMonth));
                             }
                         },
                         year, month, day);
@@ -55,21 +55,21 @@ public class CreateTaskActivity extends AppCompatActivity {
             }
         });
 
-        binding.finishAddingButton.setOnClickListener(new View.OnClickListener() {
+        binding.createTaskSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
                 Bundle data = new Bundle();
-                data.putString("title", String.valueOf(binding.titleEditText.getText()));
-                data.putString("description", String.valueOf(binding.descriptionEditText.getText()));
-                data.putString("deadline", String.valueOf(binding.deadlineEditDate.getText()));
+                data.putString("title", String.valueOf(binding.createTaskTitle.getText()));
+                data.putString("description", String.valueOf(binding.createTaskDescription.getText()));
+                data.putString("deadline", String.valueOf(binding.createTaskDeadline.getText()));
                 intent.putExtras(data);
                 setResult(RESULT_OK, intent);
                 finish();
             }
         });
 
-        binding.cancelAddingButton.setOnClickListener(new View.OnClickListener() {
+        binding.createTaskCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);

@@ -22,7 +22,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/card_title"
+                android:id="@+id/task_title"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -30,12 +30,12 @@
                 android:inputType="textMultiLine"
                 android:singleLine="false"
                 android:text="Name"
-                app:layout_constraintBottom_toBottomOf="@+id/mark_important_button"
+                app:layout_constraintBottom_toBottomOf="@+id/task_important"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mark_important_button" />
+                app:layout_constraintTop_toTopOf="@+id/task_important" />
 
             <EditText
-                android:id="@+id/card_description"
+                android:id="@+id/task_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -47,12 +47,12 @@
                 android:nestedScrollingEnabled="false"
                 android:singleLine="false"
                 android:text="Name"
-                app:layout_constraintEnd_toEndOf="@+id/remove_task_button"
-                app:layout_constraintStart_toStartOf="@+id/card_title"
-                app:layout_constraintTop_toBottomOf="@+id/card_title" />
+                app:layout_constraintEnd_toEndOf="@+id/task_remove"
+                app:layout_constraintStart_toStartOf="@+id/task_title"
+                app:layout_constraintTop_toBottomOf="@+id/task_title" />
 
             <Button
-                android:id="@+id/remove_task_button"
+                android:id="@+id/task_remove"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:text="X"
@@ -60,48 +60,48 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/mark_completed_button"
+                android:id="@+id/task_complete"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:text="V"
-                app:layout_constraintEnd_toStartOf="@+id/remove_task_button"
+                app:layout_constraintEnd_toStartOf="@+id/task_remove"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/mark_important_button"
+                android:id="@+id/task_important"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:text="*"
-                app:layout_constraintEnd_toStartOf="@+id/mark_completed_button"
+                app:layout_constraintEnd_toStartOf="@+id/task_complete"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/date_added_text"
+                android:id="@+id/task_date_added"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/card_description" />
+                app:layout_constraintTop_toBottomOf="@+id/task_description" />
 
             <LinearLayout
-                android:id="@+id/deadline_container"
+                android:id="@+id/task_deadline_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="24dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/date_added_text">
+                app:layout_constraintTop_toBottomOf="@+id/task_date_added">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/task_due"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Due:" />
 
                 <EditText
-                    android:id="@+id/card_deadline_edit"
+                    android:id="@+id/task_deadline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
