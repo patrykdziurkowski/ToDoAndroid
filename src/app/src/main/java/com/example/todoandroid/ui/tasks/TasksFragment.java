@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,11 +18,11 @@ import com.example.todoandroid.BaseActivityResult;
 import com.example.todoandroid.CreateTaskActivity;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
+import com.example.todoandroid.ui.TasksViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -35,7 +34,7 @@ public class TasksFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(this).get(TasksViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(TasksViewModel.class);
         binding = FragmentTasksBinding.inflate(inflater, container, false);
 
         setupRecyclerView();

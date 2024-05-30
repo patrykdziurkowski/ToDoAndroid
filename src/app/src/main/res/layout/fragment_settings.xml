@@ -4,4 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsFragment"/>
+    tools:context=".ui.settings.SettingsFragment">
+
+    <RadioGroup
+        android:id="@+id/settings_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/settings_sort_deadline"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_sort_label">
+
+        <RadioButton
+            android:id="@+id/settings_sort_date_added"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date Added" />
+
+        <RadioButton
+            android:id="@+id/settings_sort_deadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deadline" />
+
+        <RadioButton
+            android:id="@+id/settings_sort_importance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Importance" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/settings_sort_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Sort tasks by:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
