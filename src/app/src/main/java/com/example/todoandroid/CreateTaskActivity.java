@@ -35,46 +35,34 @@ public class CreateTaskActivity extends AppCompatActivity {
             return insets;
         });
 
-        binding.createTaskDeadline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        CreateTaskActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                binding.createTaskDeadline.setText(String.format("%s-%s-%s", year, month, dayOfMonth));
-                            }
-                        },
-                        year, month, day);
-                datePickerDialog.show();
-            }
+        binding.createTaskDeadline.setOnClickListener((view) -> {
+            Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    CreateTaskActivity.this,
+                    (v, y, m, d) -> {
+                        binding.createTaskDeadline.setText(String.format("%s-%s-%s", y, m, d));
+                    },
+                    year, month, day);
+            datePickerDialog.show();
         });
 
-        binding.createTaskSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                Bundle data = new Bundle();
-                data.putString("title", String.valueOf(binding.createTaskTitle.getText()));
-                data.putString("description", String.valueOf(binding.createTaskDescription.getText()));
-                data.putString("deadline", String.valueOf(binding.createTaskDeadline.getText()));
-                intent.putExtras(data);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+        binding.createTaskSubmit.setOnClickListener((view) -> {
+            Intent intent = new Intent();
+            Bundle data = new Bundle();
+            data.putString("title", String.valueOf(binding.createTaskTitle.getText()));
+            data.putString("description", String.valueOf(binding.createTaskDescription.getText()));
+            data.putString("deadline", String.valueOf(binding.createTaskDeadline.getText()));
+            intent.putExtras(data);
+            setResult(RESULT_OK, intent);
+            finish();
         });
 
-        binding.createTaskCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        binding.createTaskCancel.setOnClickListener((view) -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
     }
 }

@@ -50,57 +50,33 @@ public class TasksFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        viewModel.getTasks().observe(getViewLifecycleOwner(), new Observer<List<Task>>() {
-            @Override
-            public void onChanged(List<Task> tasks) {
-                adapter.setTasks(tasks);
-            }
-        });
+        viewModel.getTasks().observe(getViewLifecycleOwner(), adapter::setTasks);
 
-        adapter.setOnDeleteClickListener(new TasksAdapter.HolderClickListener() {
-            public void onClick(Task task) {
-                viewModel.removeTask(task.getId());
-            }
+        adapter.setOnDeleteClickListener((task) -> {
+            viewModel.removeTask(task.getId());
         });
-        adapter.setOnCompleteClickListener(new TasksAdapter.HolderClickListener() {
-            @Override
-            public void onClick(Task task) {
-                viewModel.toggleTaskCompletion(task.getId());
-            }
+        adapter.setOnCompleteClickListener((task) -> {
+            viewModel.toggleTaskCompletion(task.getId());
         });
-        adapter.setOnEditClickListener(new TasksAdapter.HolderClickListener() {
-            @Override
-            public void onClick(Task task) {
-                viewModel.save(task);
-            }
+        adapter.setOnEditClickListener((task) -> {
+            viewModel.save(task);
         });
-        adapter.setOnImportantClickListener(new TasksAdapter.HolderClickListener() {
-            @Override
-            public void onClick(Task task) {
-                Task.TaskPriority priority = (task.getPriority() == Task.TaskPriority.NORMAL) ?
-                        Task.TaskPriority.IMPORTANT :
-                        Task.TaskPriority.NORMAL;
-                task.setPriority(priority);
-                viewModel.save(task);
-            }
+        adapter.setOnImportantClickListener((task) -> {
+            Task.TaskPriority priority = (task.getPriority() == Task.TaskPriority.NORMAL) ?
+                    Task.TaskPriority.IMPORTANT :
+                    Task.TaskPriority.NORMAL;
+            task.setPriority(priority);
+            viewModel.save(task);
         });
-        adapter.setOnDateClickListener(new TasksAdapter.HolderClickListener() {
-            @Override
-            public void onClick(Task task) {
-                viewModel.save(task);
-            }
+        adapter.setOnDateClickListener((task) -> {
+            viewModel.save(task);
         });
     }
 
     private void setupTaskCreationActivityLauncher() {
-        binding.tasksAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent createTaskIntent = new Intent(getActivity(), CreateTaskActivity.class);
-                activityLauncher.launch(createTaskIntent, result -> {
-                    createTaskResult(result);
-                });
-            }
+        binding.tasksAdd.setOnClickListener((view) -> {
+            Intent createTaskIntent = new Intent(getActivity(), CreateTaskActivity.class);
+            activityLauncher.launch(createTaskIntent, this::createTaskResult);
         });
     }
 
