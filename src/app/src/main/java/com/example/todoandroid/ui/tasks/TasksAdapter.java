@@ -69,7 +69,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                         view.getContext(),
                         (v, y, m, d) -> {
                             holder.binding.taskDeadline.setText(String.format("%s-%s-%s", y, m + Constants.INDEX_OFFSET, d));
-                            currentTask.setDeadline(new DateOnly(y, m, d));
+                            currentTask.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
                             holderDateClickListener.onClick(currentTask);
                         },
                         year, month, day);
