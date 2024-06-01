@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todoandroid.Constants;
 import com.example.todoandroid.CreateTaskActivity;
 import com.example.todoandroid.DateOnly;
 import com.example.todoandroid.R;
@@ -67,7 +68,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
                         view.getContext(),
                         (v, y, m, d) -> {
-                            holder.binding.taskDeadline.setText(String.format("%s-%s-%s", y, m, d));
+                            holder.binding.taskDeadline.setText(String.format("%s-%s-%s", y, m + Constants.INDEX_OFFSET, d));
                             currentTask.setDeadline(new DateOnly(y, m, d));
                             holderDateClickListener.onClick(currentTask);
                         },

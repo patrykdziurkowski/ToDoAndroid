@@ -43,7 +43,7 @@ public class CreateTaskActivity extends AppCompatActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     CreateTaskActivity.this,
                     (v, y, m, d) -> {
-                        binding.createTaskDeadline.setText(String.format("%s-%s-%s", y, m + 1, d));
+                        binding.createTaskDeadline.setText(String.format("%s-%s-%s", y, m + Constants.INDEX_OFFSET, d));
                     },
                     year, month, day);
             datePickerDialog.show();

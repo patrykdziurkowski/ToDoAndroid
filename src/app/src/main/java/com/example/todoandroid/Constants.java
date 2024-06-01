@@ -1,6 +1,8 @@
 package com.example.todoandroid;
 
 public class Constants {
+    public static final int INDEX_OFFSET = 1;
+
     public static final int DATE_YEAR_OFFSET = 1900;
 
     public static final int FIRST_ARGUMENT_IS_LESSER = -1;

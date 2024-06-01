@@ -97,11 +97,8 @@ public class TasksViewModel extends ViewModel {
             if (taskSortingMode == TaskSortingMode.DateAdded) {
                 return t1.getDateAdded().compareTo(t2.getDateAdded());
             } else if (taskSortingMode == TaskSortingMode.Deadline) {
-                if (t1.getDeadline() == null) {
-                    return Constants.FIRST_ARGUMENT_IS_LESSER;
-                } else if (t2.getDeadline() == null) {
-                    return Constants.FIRST_ARGUMENT_IS_GREATER;
-                }
+                if (t1.getDeadline() == null) return Constants.FIRST_ARGUMENT_IS_LESSER;
+                if (t2.getDeadline() == null) return Constants.FIRST_ARGUMENT_IS_GREATER;
                 return t1.getDeadline().compareTo(t2.getDeadline());
             } else {
                 if (t1.getPriority() == Task.TaskPriority.NORMAL
