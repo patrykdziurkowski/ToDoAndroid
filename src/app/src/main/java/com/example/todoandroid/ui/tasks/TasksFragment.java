@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoandroid.BaseActivityResult;
+import com.example.todoandroid.Constants;
 import com.example.todoandroid.CreateTaskActivity;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
@@ -90,10 +91,12 @@ public class TasksFragment extends Fragment {
         if (data == null) return;
 
         try {
+            Date deadline = new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline"));
+            deadline.setYear(deadline.getYear() - Constants.DATE_YEAR_OFFSET);
             viewModel.addTask(
                     data.getString("title"),
                     data.getString("description"),
-                    new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline")),
+                    deadline,
                     new Date());
         } catch (ParseException e) {
             viewModel.addTask(
