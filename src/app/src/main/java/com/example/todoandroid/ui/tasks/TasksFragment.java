@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.todoandroid.BaseActivityResult;
 import com.example.todoandroid.Constants;
 import com.example.todoandroid.CreateTaskActivity;
+import com.example.todoandroid.DateOnly;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
 import com.example.todoandroid.ui.TasksViewModel;
@@ -24,6 +25,7 @@ import com.example.todoandroid.ui.TasksViewModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -90,20 +92,20 @@ public class TasksFragment extends Fragment {
         Bundle data = intent.getExtras();
         if (data == null) return;
 
-        try {
-            Date deadline = new SimpleDateFormat("yyyy-MM-dd").parse(data.getString("deadline"));
-            deadline.setYear(deadline.getYear() - Constants.DATE_YEAR_OFFSET);
+        Optional<DateOnly> parseResult = DateOnly.parse(data.getString("deadline"));
+        if (!parseResult.isPresent()) {
             viewModel.addTask(
                     data.getString("title"),
                     data.getString("description"),
-                    deadline,
-                    new Date());
-        } catch (ParseException e) {
-            viewModel.addTask(
-                    data.getString("title"),
-                    data.getString("description"),
-                    new Date());
+                    new DateOnly());
+            return;
         }
+
+        viewModel.addTask(
+                data.getString("title"),
+                data.getString("description"),
+                parseResult.get(),
+                new DateOnly());
     }
 
     @Override

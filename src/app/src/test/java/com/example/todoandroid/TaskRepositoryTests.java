@@ -22,7 +22,7 @@ public class TaskRepositoryTests {
                 id,
                 "My new task",
                 "",
-                new Date(2020, 6, 24));
+                new DateOnly(2020, 6, 24));
         taskRepository.save(newTask);
 
         Optional<Task> task = taskRepository.getTaskById(id);
@@ -49,7 +49,7 @@ public class TaskRepositoryTests {
                 UUID.randomUUID(),
                 "My new task",
                 "",
-                new Date(2020, 6, 24));
+                new DateOnly(2020, 6, 24));
 
         taskRepository.save(newTask);
 
@@ -65,7 +65,7 @@ public class TaskRepositoryTests {
                 UUID.randomUUID(),
                 "My new task",
                 "",
-                new Date(2020, 6, 24));
+                new DateOnly(2020, 6, 24));
 
         taskRepository.save(newTask);
         taskRepository.save(newTask);
@@ -82,15 +82,15 @@ public class TaskRepositoryTests {
                 taskUuid,
                 "Old task name",
                 "Old description",
-                new Date(2020, 6, 24));
+                new DateOnly(2020, 6, 24));
         Task newTask = new Task(
                 taskUuid,
                 "New task name",
                 "New description",
-                new Date(2020, 6, 24));
+                new DateOnly(2020, 6, 24));
         newTask.setCompleted(true);
         newTask.setPriority(Task.TaskPriority.IMPORTANT);
-        newTask.setDeadline(new Date(2023, 7, 15));
+        newTask.setDeadline(new DateOnly(2023, 7, 15));
 
         taskRepository.save(oldTask);
         taskRepository.save(newTask);
@@ -104,7 +104,7 @@ public class TaskRepositoryTests {
         assertEquals("New description", task.getDescription());
         assertTrue(task.isCompleted());
         assertEquals(Task.TaskPriority.IMPORTANT, task.getPriority());
-        assertEquals(new Date(2023, 7, 15), task.getDeadline());
+        assertEquals(new DateOnly(2023, 7, 15), task.getDeadline());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class TaskRepositoryTests {
                 taskId,
                 "My new task",
                 "",
-                new Date(2020, 6, 24));
+                new DateOnly(2020, 6, 24));
         task.setMarkedForDeletion(true);
 
         taskRepository.save(task);

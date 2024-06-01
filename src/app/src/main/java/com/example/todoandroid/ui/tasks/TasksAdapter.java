@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoandroid.CreateTaskActivity;
+import com.example.todoandroid.DateOnly;
 import com.example.todoandroid.R;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FrameTaskBinding;
@@ -67,7 +68,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                         view.getContext(),
                         (v, y, m, d) -> {
                             holder.binding.taskDeadline.setText(String.format("%s-%s-%s", y, m, d));
-                            currentTask.setDeadline(new Date(y, m, d));
+                            currentTask.setDeadline(new DateOnly(y, m, d));
                             holderDateClickListener.onClick(currentTask);
                         },
                         year, month, day);

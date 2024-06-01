@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         if (task.getDeadline() == null) { return; }
 
         Calendar calendar = Calendar.getInstance();
-        Date alarmDate = (task.getDeadline().before(new Date())) ? new Date() : task.getDeadline();
-        calendar.setTime(alarmDate);
+        DateOnly alarmDate = (task.getDeadline().before(new DateOnly())) ? new DateOnly() : task.getDeadline();
+        calendar.setTime(alarmDate.toDate());
         calendar.setTimeInMillis(calendar.getTimeInMillis() + 3000);
         Intent intent = new Intent(getApplicationContext(), Notification.class);
         intent.putExtra("title", task.getTitle());

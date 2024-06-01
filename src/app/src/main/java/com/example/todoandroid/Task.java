@@ -8,8 +8,8 @@ public class Task {
     private String title;
     private String description;
     private boolean isCompleted;
-    private final Date dateAdded;
-    private Date deadline;
+    private final DateOnly dateAdded;
+    private DateOnly deadline;
     private boolean isMarkedForDeletion;
     private TaskPriority priority;
     public enum TaskPriority { IMPORTANT, NORMAL }
@@ -18,8 +18,8 @@ public class Task {
             UUID id,
             String title,
             String description,
-            Date deadline,
-            Date dateAdded
+            DateOnly deadline,
+            DateOnly dateAdded
     ) {
         this.id = id;
         this.title = title;
@@ -34,7 +34,7 @@ public class Task {
             UUID id,
             String title,
             String description,
-            Date dateAdded
+            DateOnly dateAdded
     ) {
         this(id, title, description, null, dateAdded);
     }
@@ -54,7 +54,7 @@ public class Task {
         return this;
     }
 
-    public Task setDeadline(Date deadline) {
+    public Task setDeadline(DateOnly deadline) {
         this.deadline = deadline;
         return this;
     }
@@ -83,13 +83,13 @@ public class Task {
         return isCompleted;
     }
 
-    public Date getDateAdded() {
+    public DateOnly getDateAdded() {
         return dateAdded;
     }
 
     public boolean isMarkedForDeletion() { return isMarkedForDeletion; }
 
-    public Date getDeadline() {
+    public DateOnly getDeadline() {
         return deadline;
     }
 

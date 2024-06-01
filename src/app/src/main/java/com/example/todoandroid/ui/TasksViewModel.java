@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.todoandroid.Constants;
+import com.example.todoandroid.DateOnly;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.TaskRepository;
 
@@ -34,8 +35,8 @@ public class TasksViewModel extends ViewModel {
     public void addTask(
             String title,
             String description,
-            Date deadline,
-            Date dateAdded
+            DateOnly deadline,
+            DateOnly dateAdded
     ) {
         Task task = new Task(
                 UUID.randomUUID(),
@@ -54,7 +55,7 @@ public class TasksViewModel extends ViewModel {
     public void addTask(
             String title,
             String description,
-            Date dateAdded
+            DateOnly dateAdded
     ) {
         Task task = new Task(
                 UUID.randomUUID(),
