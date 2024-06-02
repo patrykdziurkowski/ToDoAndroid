@@ -36,7 +36,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 parent,
                 false);
 
-        return new TaskHolder(holderBinding);
+        return new TaskHolder(
+                holderBinding,
+                tasks,
+                deleteClickListener,
+                completeClickListener,
+                editClickListener,
+                importanceClickListener,
+                dateClickListener);
     }
 
     @Override
@@ -52,65 +59,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         } else {
             holder.binding.taskDeadline.setText(currentTask.getDeadline().toString());
         }
-
-        holder.binding.taskDeadline.setOnLongClickListener((view) -> {
-            Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    view.getContext(),
-                    (v, y, m, d) -> {
-                        currentTask.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
-                        dateClickListener.onClick(currentTask);
-                    },
-                    year, month, day);
-            datePickerDialog.show();
-            return true;
-        });
-
-        holder.binding.taskRemove.setOnClickListener((view) -> {
-            if (deleteClickListener == null) { return; }
-            deleteClickListener.onClick(currentTask);
-        });
-
-        holder.binding.taskComplete.setOnClickListener((view) -> {
-            if (completeClickListener == null) { return; }
-            completeClickListener.onClick(currentTask);
-        });
-
-        holder.binding.taskImportant.setOnClickListener((view) -> {
-            if (importanceClickListener == null) { return; }
-            importanceClickListener.onClick(currentTask);
-        });
-
-        holder.binding.taskTitle.setFocusable(false);
-        holder.binding.taskTitle.setOnLongClickListener((view) -> {
-                holder.binding.taskTitle.setFocusableInTouchMode(true);
-                return true;
-        });
-        holder.binding.taskTitle.setOnFocusChangeListener((view, hasFocus) -> {
-            if (hasFocus) return;
-            holder.binding.taskTitle.setFocusable(false);
-
-            if (editClickListener == null) return;
-            currentTask.setTitle(String.valueOf(holder.binding.taskTitle.getText()));
-            editClickListener.onClick(currentTask);
-        });
-
-        holder.binding.taskDescription.setFocusable(false);
-        holder.binding.taskDescription.setOnLongClickListener((view) -> {
-            holder.binding.taskDescription.setFocusableInTouchMode(true);
-            return true;
-        });
-        holder.binding.taskDescription.setOnFocusChangeListener((view, hasFocus) -> {
-            if (hasFocus) return;
-            holder.binding.taskDescription.setFocusable(false);
-
-            if (editClickListener == null) return;
-            currentTask.setDescription(String.valueOf(holder.binding.taskDescription.getText()));
-            editClickListener.onClick(currentTask);
-        });
     }
 
     @Override
@@ -143,12 +91,85 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         notifyDataSetChanged();
     }
 
+
     public static class TaskHolder extends RecyclerView.ViewHolder {
         public final FrameTaskBinding binding;
 
-        public TaskHolder(FrameTaskBinding binding) {
+        public TaskHolder(
+                FrameTaskBinding binding,
+                List<Task> tasks,
+                TaskClickListener deleteClickListener,
+                TaskClickListener completeClickListener,
+                TaskClickListener editClickListener,
+                TaskClickListener importanceClickListener,
+                TaskClickListener dateClickListener) {
             super(binding.getRoot());
             this.binding = binding;
+
+            binding.taskDeadline.setOnLongClickListener((view) -> {
+                Task task = tasks.get(getAdapterPosition());
+                Calendar c = Calendar.getInstance();
+                int year = c.get(Calendar.YEAR);
+                int month = c.get(Calendar.MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        view.getContext(),
+                        (v, y, m, d) -> {
+                            task.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
+                            dateClickListener.onClick(task);
+                        },
+                        year, month, day);
+                datePickerDialog.show();
+                return true;
+            });
+
+            binding.taskRemove.setOnClickListener((view) -> {
+                if (deleteClickListener == null) { return; }
+                Task task = tasks.get(getAdapterPosition());
+                deleteClickListener.onClick(task);
+            });
+
+            binding.taskComplete.setOnClickListener((view) -> {
+                if (completeClickListener == null) { return; }
+                Task task = tasks.get(getAdapterPosition());
+                completeClickListener.onClick(task);
+            });
+
+            binding.taskImportant.setOnClickListener((view) -> {
+                if (importanceClickListener == null) { return; }
+                Task task = tasks.get(getAdapterPosition());
+                importanceClickListener.onClick(task);
+            });
+
+            binding.taskTitle.setFocusable(false);
+            binding.taskTitle.setOnLongClickListener((view) -> {
+                binding.taskTitle.setFocusableInTouchMode(true);
+                return true;
+            });
+            binding.taskTitle.setOnFocusChangeListener((view, hasFocus) -> {
+                if (hasFocus) return;
+                binding.taskTitle.setFocusable(false);
+
+                if (editClickListener == null) return;
+                Task task = tasks.get(getAdapterPosition());
+                task.setTitle(String.valueOf(binding.taskTitle.getText()));
+                editClickListener.onClick(task);
+            });
+
+            binding.taskDescription.setFocusable(false);
+            binding.taskDescription.setOnLongClickListener((view) -> {
+                binding.taskDescription.setFocusableInTouchMode(true);
+                return true;
+            });
+            binding.taskDescription.setOnFocusChangeListener((view, hasFocus) -> {
+                if (hasFocus) return;
+                binding.taskDescription.setFocusable(false);
+
+                if (editClickListener == null) return;
+                Task task = tasks.get(getAdapterPosition());
+                task.setDescription(String.valueOf(binding.taskDescription.getText()));
+                editClickListener.onClick(task);
+            });
         }
 
         public void setCompleted(boolean completed) {
@@ -161,6 +182,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             binding.taskImportant.setBackgroundColor(color);
         }
     }
+
 
     public interface TaskClickListener {
         void onClick(Task task);
