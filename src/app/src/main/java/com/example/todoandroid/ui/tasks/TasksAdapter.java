@@ -57,6 +57,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         holder.binding.taskDateAdded.setText(currentTask.getDateAdded().toString());
         if (currentTask.getDeadline() == null) {
             holder.binding.taskDue.setVisibility(View.INVISIBLE);
+            holder.binding.taskDeadline.setText("");
         } else {
             holder.binding.taskDue.setVisibility(View.VISIBLE);
             holder.binding.taskDeadline.setText(currentTask.getDeadline().toString());
@@ -70,7 +71,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     view.getContext(),
                     (v, y, m, d) -> {
-                        holder.binding.taskDeadline.setText(String.format("%s-%s-%s", y, m + Constants.INDEX_OFFSET, d));
                         currentTask.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
                         holderDateClickListener.onClick(currentTask);
                     },
