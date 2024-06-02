@@ -28,6 +28,8 @@ public class DateOnly implements Comparable<DateOnly> {
     }
 
     public boolean before(DateOnly date2) {
+        if (date2 == null) throw new IllegalArgumentException("Provided date cannot be null");
+
         if (getYear() > date2.getYear()) return false;
         if (getYear() < date2.getYear()) return true;
 

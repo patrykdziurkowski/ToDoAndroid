@@ -39,6 +39,16 @@ public class DateOnlyTests {
     }
 
     @Test
+    public void before_returnsFalse_whenSecondDateNull() {
+        DateOnly date = new DateOnly(2020, 6, 23);
+        DateOnly date2 = null;
+
+        assertThrows(IllegalArgumentException.class, () -> {
+           date.before(date2);
+        });
+    }
+
+    @Test
     public void before_returnsFalse_whenFirstDateEqualsSecond() {
         DateOnly date = new DateOnly(2020, 6, 23);
         DateOnly date2 = new DateOnly(2020, 6, 23);

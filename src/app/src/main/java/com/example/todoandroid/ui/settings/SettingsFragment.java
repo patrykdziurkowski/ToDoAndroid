@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.todoandroid.TaskSortingStrategyFactory;
 import com.example.todoandroid.databinding.FragmentSettingsBinding;
 import com.example.todoandroid.ui.TasksViewModel;
 
@@ -22,15 +23,15 @@ public class SettingsFragment extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
 
         binding.settingsSortDateAdded.setOnClickListener((view) -> {
-            viewModel.setTaskSortingMode(TasksViewModel.TaskSortingMode.DateAdded);
+            viewModel.setTaskSortingMode(TaskSortingStrategyFactory.SortingMode.DateAdded);
             viewModel.sortTasks();
         });
         binding.settingsSortDeadline.setOnClickListener((view) -> {
-            viewModel.setTaskSortingMode(TasksViewModel.TaskSortingMode.Deadline);
+            viewModel.setTaskSortingMode(TaskSortingStrategyFactory.SortingMode.Deadline);
             viewModel.sortTasks();
         });
         binding.settingsSortImportance.setOnClickListener((view) -> {
-            viewModel.setTaskSortingMode(TasksViewModel.TaskSortingMode.Importance);
+            viewModel.setTaskSortingMode(TaskSortingStrategyFactory.SortingMode.Importance);
             viewModel.sortTasks();
         });
 
