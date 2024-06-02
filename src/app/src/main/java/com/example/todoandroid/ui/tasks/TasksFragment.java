@@ -15,16 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoandroid.BaseActivityResult;
-import com.example.todoandroid.Constants;
 import com.example.todoandroid.CreateTaskActivity;
 import com.example.todoandroid.DateOnly;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
 import com.example.todoandroid.ui.TasksViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -54,23 +50,23 @@ public class TasksFragment extends Fragment {
 
         viewModel.getTasks().observe(getViewLifecycleOwner(), adapter::setTasks);
 
-        adapter.setOnDeleteClickListener((task) -> {
+        adapter.setDeleteClickListener((task) -> {
             viewModel.removeTask(task.getId());
         });
-        adapter.setOnCompleteClickListener((task) -> {
+        adapter.setCompleteClickListener((task) -> {
             viewModel.toggleTaskCompletion(task.getId());
         });
-        adapter.setOnEditClickListener((task) -> {
+        adapter.setEditClickListener((task) -> {
             viewModel.save(task);
         });
-        adapter.setOnImportantClickListener((task) -> {
+        adapter.setImportanceClickListener((task) -> {
             Task.TaskPriority priority = (task.getPriority() == Task.TaskPriority.NORMAL) ?
                     Task.TaskPriority.IMPORTANT :
                     Task.TaskPriority.NORMAL;
             task.setPriority(priority);
             viewModel.save(task);
         });
-        adapter.setOnDateClickListener((task) -> {
+        adapter.setDateClickListener((task) -> {
             viewModel.save(task);
         });
     }

@@ -3,34 +3,26 @@ package com.example.todoandroid.ui.tasks;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoandroid.Constants;
-import com.example.todoandroid.CreateTaskActivity;
 import com.example.todoandroid.DateOnly;
-import com.example.todoandroid.R;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.databinding.FrameTaskBinding;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> {
     private List<Task> tasks;
-    private HolderClickListener holderDeleteClickListener;
-    private HolderClickListener holderCompleteClickListener;
-    private HolderClickListener holderEditClickListener;
-    private HolderClickListener holderImportantClickListener;
-    private HolderClickListener holderDateClickListener;
+    private TaskClickListener deleteClickListener;
+    private TaskClickListener completeClickListener;
+    private TaskClickListener editClickListener;
+    private TaskClickListener importanceClickListener;
+    private TaskClickListener dateClickListener;
 
     public TasksAdapter(List<Task> tasks) {
         this.tasks = tasks;
@@ -70,7 +62,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                     view.getContext(),
                     (v, y, m, d) -> {
                         currentTask.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
-                        holderDateClickListener.onClick(currentTask);
+                        dateClickListener.onClick(currentTask);
                     },
                     year, month, day);
             datePickerDialog.show();
@@ -78,18 +70,18 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         });
 
         holder.binding.taskRemove.setOnClickListener((view) -> {
-            if (holderDeleteClickListener == null) { return; }
-            holderDeleteClickListener.onClick(currentTask);
+            if (deleteClickListener == null) { return; }
+            deleteClickListener.onClick(currentTask);
         });
 
         holder.binding.taskComplete.setOnClickListener((view) -> {
-            if (holderCompleteClickListener == null) { return; }
-            holderCompleteClickListener.onClick(currentTask);
+            if (completeClickListener == null) { return; }
+            completeClickListener.onClick(currentTask);
         });
 
         holder.binding.taskImportant.setOnClickListener((view) -> {
-            if (holderImportantClickListener == null) { return; }
-            holderImportantClickListener.onClick(currentTask);
+            if (importanceClickListener == null) { return; }
+            importanceClickListener.onClick(currentTask);
         });
 
         holder.binding.taskTitle.setFocusable(false);
@@ -101,9 +93,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             if (hasFocus) return;
             holder.binding.taskTitle.setFocusable(false);
 
-            if (holderEditClickListener == null) return;
+            if (editClickListener == null) return;
             currentTask.setTitle(String.valueOf(holder.binding.taskTitle.getText()));
-            holderEditClickListener.onClick(currentTask);
+            editClickListener.onClick(currentTask);
         });
 
         holder.binding.taskDescription.setFocusable(false);
@@ -115,9 +107,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
             if (hasFocus) return;
             holder.binding.taskDescription.setFocusable(false);
 
-            if (holderEditClickListener == null) return;
+            if (editClickListener == null) return;
             currentTask.setDescription(String.valueOf(holder.binding.taskDescription.getText()));
-            holderEditClickListener.onClick(currentTask);
+            editClickListener.onClick(currentTask);
         });
     }
 
@@ -126,24 +118,24 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         return tasks.size();
     }
 
-    public void setOnDeleteClickListener(HolderClickListener holderDeleteClickListener) {
-        this.holderDeleteClickListener = holderDeleteClickListener;
+    public void setDeleteClickListener(TaskClickListener deleteClickListener) {
+        this.deleteClickListener = deleteClickListener;
     }
 
-    public void setOnCompleteClickListener(HolderClickListener holderCompleteClickListener) {
-        this.holderCompleteClickListener = holderCompleteClickListener;
+    public void setCompleteClickListener(TaskClickListener completeClickListener) {
+        this.completeClickListener = completeClickListener;
     }
 
-    public void setOnEditClickListener(HolderClickListener holderEditClickListener) {
-        this.holderEditClickListener = holderEditClickListener;
+    public void setEditClickListener(TaskClickListener editClickListener) {
+        this.editClickListener = editClickListener;
     }
 
-    public void setOnImportantClickListener(HolderClickListener holderImportantClickListener) {
-        this.holderImportantClickListener = holderImportantClickListener;
+    public void setImportanceClickListener(TaskClickListener importanceClickListener) {
+        this.importanceClickListener = importanceClickListener;
     }
 
-    public void setOnDateClickListener(HolderClickListener holderDateClickListener) {
-        this.holderDateClickListener = holderDateClickListener;
+    public void setDateClickListener(TaskClickListener dateClickListener) {
+        this.dateClickListener = dateClickListener;
     }
 
     public void setTasks(List<Task> tasks) {
@@ -170,7 +162,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         }
     }
 
-    public interface HolderClickListener {
+    public interface TaskClickListener {
         void onClick(Task task);
     }
 }
