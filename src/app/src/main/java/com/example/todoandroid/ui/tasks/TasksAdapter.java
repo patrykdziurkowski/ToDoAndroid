@@ -56,10 +56,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         holder.setImportant(currentTask.getPriority() == Task.TaskPriority.IMPORTANT);
         holder.binding.taskDateAdded.setText(currentTask.getDateAdded().toString());
         if (currentTask.getDeadline() == null) {
-            holder.binding.taskDue.setVisibility(View.INVISIBLE);
             holder.binding.taskDeadline.setText("");
         } else {
-            holder.binding.taskDue.setVisibility(View.VISIBLE);
             holder.binding.taskDeadline.setText(currentTask.getDeadline().toString());
         }
 
