@@ -56,26 +56,28 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         holder.setImportant(currentTask.getPriority() == Task.TaskPriority.IMPORTANT);
         holder.binding.taskDateAdded.setText(currentTask.getDateAdded().toString());
         if (currentTask.getDeadline() == null) {
-            holder.binding.taskDeadlineContainer.setVisibility(View.INVISIBLE);
+            holder.binding.taskDue.setVisibility(View.INVISIBLE);
         } else {
-            holder.binding.taskDeadlineContainer.setVisibility(View.VISIBLE);
+            holder.binding.taskDue.setVisibility(View.VISIBLE);
             holder.binding.taskDeadline.setText(currentTask.getDeadline().toString());
-            holder.binding.taskDeadline.setOnClickListener((view) -> {
-                Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        view.getContext(),
-                        (v, y, m, d) -> {
-                            holder.binding.taskDeadline.setText(String.format("%s-%s-%s", y, m + Constants.INDEX_OFFSET, d));
-                            currentTask.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
-                            holderDateClickListener.onClick(currentTask);
-                        },
-                        year, month, day);
-                datePickerDialog.show();
-            });
         }
+
+        holder.binding.taskDeadline.setOnLongClickListener((view) -> {
+            Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    view.getContext(),
+                    (v, y, m, d) -> {
+                        holder.binding.taskDeadline.setText(String.format("%s-%s-%s", y, m + Constants.INDEX_OFFSET, d));
+                        currentTask.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
+                        holderDateClickListener.onClick(currentTask);
+                    },
+                    year, month, day);
+            datePickerDialog.show();
+            return true;
+        });
 
         holder.binding.taskRemove.setOnClickListener((view) -> {
             if (holderDeleteClickListener == null) { return; }
