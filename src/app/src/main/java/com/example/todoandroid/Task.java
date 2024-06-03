@@ -1,17 +1,19 @@
 package com.example.todoandroid;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Task {
     private final UUID id;
     private String title;
     private String description;
-    private boolean isCompleted;
     private final DateOnly dateAdded;
-    private DateOnly deadline;
-    private boolean isMarkedForDeletion;
-    private TaskPriority priority;
+    private Optional<DateOnly> deadline;
+    private boolean isCompleted = false;
+    private boolean isMarkedForDeletion = false;
+    private TaskPriority priority = TaskPriority.NORMAL;
+
     public enum TaskPriority { IMPORTANT, NORMAL }
 
     public Task(
@@ -24,10 +26,8 @@ public class Task {
         this.id = id;
         this.title = title;
         this.description = description;
-        isCompleted = false;
         this.dateAdded = dateAdded;
-        this.deadline = deadline;
-        priority = TaskPriority.NORMAL;
+        this.deadline = Optional.ofNullable(deadline);
     }
 
     public Task(
@@ -55,6 +55,11 @@ public class Task {
     }
 
     public Task setDeadline(DateOnly deadline) {
+        this.deadline = Optional.ofNullable(deadline);
+        return this;
+    }
+
+    public Task setDeadline(Optional<DateOnly> deadline) {
         this.deadline = deadline;
         return this;
     }
@@ -89,7 +94,7 @@ public class Task {
 
     public boolean isMarkedForDeletion() { return isMarkedForDeletion; }
 
-    public DateOnly getDeadline() {
+    public Optional<DateOnly> getDeadline() {
         return deadline;
     }
 

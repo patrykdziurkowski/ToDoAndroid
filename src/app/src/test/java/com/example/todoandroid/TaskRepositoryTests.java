@@ -104,7 +104,9 @@ public class TaskRepositoryTests {
         assertEquals("New description", task.getDescription());
         assertTrue(task.isCompleted());
         assertEquals(Task.TaskPriority.IMPORTANT, task.getPriority());
-        assertEquals(new DateOnly(2023, 7, 15), task.getDeadline());
+        assertEquals(
+                new DateOnly(2023, 7, 15),
+                task.getDeadline().orElseThrow(() -> new IllegalStateException("Deadline is not present despite being set earlier.")));
     }
 
     @Test

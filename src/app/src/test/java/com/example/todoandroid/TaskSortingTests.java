@@ -1,6 +1,7 @@
 package com.example.todoandroid;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -27,8 +28,10 @@ public class TaskSortingTests {
         Task t1 = sortedTasks.get(0);
         Task t2 = sortedTasks.get(1);
         Task t3 = sortedTasks.get(2);
-        assertTrue(t1.getDeadline().before(t2.getDeadline()));
-        assertNull(t3.getDeadline());
+        assertTrue(t1.getDeadline().isPresent());
+        assertTrue(t2.getDeadline().isPresent());
+        assertFalse(t3.getDeadline().isPresent());
+        assertTrue(t1.getDeadline().get().before(t2.getDeadline().get()));
     }
 
     @Test

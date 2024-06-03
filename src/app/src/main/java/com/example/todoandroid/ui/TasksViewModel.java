@@ -4,13 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.todoandroid.Constants;
 import com.example.todoandroid.DateOnly;
 import com.example.todoandroid.Task;
 import com.example.todoandroid.TaskRepository;
 import com.example.todoandroid.TaskSortingStrategyFactory;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

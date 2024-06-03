@@ -23,9 +23,9 @@ public class TaskSortingStrategyFactory {
     public static class TaskSortByDeadline implements Comparator<Task> {
         @Override
         public int compare(Task t1, Task t2) {
-            if (t1.getDeadline() == null) return Constants.FIRST_ARGUMENT_GOES_LAST;
-            if (t2.getDeadline() == null) return Constants.FIRST_ARGUMENT_GOES_FIRST;
-            return t1.getDeadline().compareTo(t2.getDeadline());
+            if (!t1.getDeadline().isPresent()) return Constants.FIRST_ARGUMENT_GOES_LAST;
+            if (!t2.getDeadline().isPresent()) return Constants.FIRST_ARGUMENT_GOES_FIRST;
+            return t1.getDeadline().get().compareTo(t2.getDeadline().get());
         }
     }
     public static class TaskSortByDateAdded implements Comparator<Task> {

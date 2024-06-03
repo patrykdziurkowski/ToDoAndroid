@@ -84,15 +84,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void scheduleNotification(Task task) {
-        if (task.getDeadline() == null) { return; }
+        if (!task.getDeadline().isPresent()) { return; }
+
+        DateOnly deadline = task.getDeadline().get();
+        DateOnly now = new DateOnly();
+        DateOnly alarmDate = (deadline.before(now)) ? now : deadline;
 
         Calendar calendar = Calendar.getInstance();
-        DateOnly alarmDate = (task.getDeadline().before(new DateOnly())) ? new DateOnly() : task.getDeadline();
         calendar.setTime(alarmDate.toDate());
         calendar.setTimeInMillis(calendar.getTimeInMillis() + 3000);
         Intent intent = new Intent(getApplicationContext(), Notification.class);
         intent.putExtra("title", task.getTitle());
-        intent.putExtra("text", String.format("Due: %s", task.getDeadline()));
+        intent.putExtra("text", String.format("Due: %s", deadline));
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getApplicationContext(),
                 Constants.PENDING_NOTIFICATION_ID,

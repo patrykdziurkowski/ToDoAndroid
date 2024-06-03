@@ -54,10 +54,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         holder.setCompleted(currentTask.isCompleted());
         holder.setImportant(currentTask.getPriority() == Task.TaskPriority.IMPORTANT);
         holder.binding.taskDateAdded.setText(currentTask.getDateAdded().toString());
-        if (currentTask.getDeadline() == null) {
-            holder.binding.taskDeadline.setText("");
+        if (currentTask.getDeadline().isPresent()) {
+            holder.binding.taskDeadline.setText(currentTask.getDeadline().get().toString());
         } else {
-            holder.binding.taskDeadline.setText(currentTask.getDeadline().toString());
+            holder.binding.taskDeadline.setText("");
         }
     }
 
