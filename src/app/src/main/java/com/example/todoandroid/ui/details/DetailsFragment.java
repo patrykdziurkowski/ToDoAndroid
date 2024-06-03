@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.todoandroid.databinding.FragmentDetailsBinding;
-import com.example.todoandroid.viewmodel.DetailsViewModel;
 
 public class DetailsFragment extends Fragment {
 
@@ -18,8 +16,6 @@ public class DetailsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DetailsViewModel detailsViewModel =
-                new ViewModelProvider(this).get(DetailsViewModel.class);
 
         binding = FragmentDetailsBinding.inflate(inflater, container, false);
         return binding.getRoot();
