@@ -1,5 +1,7 @@
 package com.example.todoandroid;
 
+import com.example.todoandroid.domain.Task;
+
 import java.util.Comparator;
 
 import javax.inject.Inject;

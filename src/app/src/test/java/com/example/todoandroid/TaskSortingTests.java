@@ -6,6 +6,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import com.example.todoandroid.domain.DateOnly;
+import com.example.todoandroid.domain.Task;
+
 import org.junit.Test;
 
 import java.util.ArrayList;

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.todoandroid.TaskSortingStrategyFactory;
 import com.example.todoandroid.databinding.FragmentSettingsBinding;
-import com.example.todoandroid.ui.TasksViewModel;
+import com.example.todoandroid.viewmodel.TasksViewModel;
 
 public class SettingsFragment extends Fragment {
     private FragmentSettingsBinding binding;

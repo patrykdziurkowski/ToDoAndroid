@@ -1,12 +1,8 @@
-package com.example.todoandroid;
+package com.example.todoandroid.ui;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +10,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.todoandroid.Constants;
+import com.example.todoandroid.R;
 import com.example.todoandroid.databinding.ActivityCreateTaskBinding;
-import com.example.todoandroid.databinding.FragmentTasksBinding;
 
 import java.util.Calendar;
 

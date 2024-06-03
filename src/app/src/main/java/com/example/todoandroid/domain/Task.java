@@ -1,6 +1,5 @@
-package com.example.todoandroid;
+package com.example.todoandroid.domain;
 
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 

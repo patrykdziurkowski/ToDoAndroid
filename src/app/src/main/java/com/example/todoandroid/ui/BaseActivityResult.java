@@ -1,4 +1,4 @@
-package com.example.todoandroid;
+package com.example.todoandroid.ui;
 
 import android.content.Intent;
 import androidx.activity.result.ActivityResult;

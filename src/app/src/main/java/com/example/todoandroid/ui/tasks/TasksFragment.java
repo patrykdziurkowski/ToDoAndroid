@@ -14,12 +14,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todoandroid.BaseActivityResult;
-import com.example.todoandroid.CreateTaskActivity;
-import com.example.todoandroid.DateOnly;
-import com.example.todoandroid.Task;
+import com.example.todoandroid.ui.BaseActivityResult;
+import com.example.todoandroid.ui.CreateTaskActivity;
+import com.example.todoandroid.domain.DateOnly;
+import com.example.todoandroid.domain.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
-import com.example.todoandroid.ui.TasksViewModel;
+import com.example.todoandroid.viewmodel.TasksViewModel;
 
 import java.util.Optional;
 

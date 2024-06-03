@@ -1,4 +1,6 @@
-package com.example.todoandroid;
+package com.example.todoandroid.domain;
+
+import com.example.todoandroid.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

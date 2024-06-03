@@ -1,4 +1,4 @@
-package com.example.todoandroid;
+package com.example.todoandroid.ui;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
+
+import com.example.todoandroid.Constants;
+import com.example.todoandroid.R;
 
 public class Notification extends BroadcastReceiver {
 

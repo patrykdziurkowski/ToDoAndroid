@@ -1,26 +1,22 @@
-package com.example.todoandroid;
+package com.example.todoandroid.ui;
 
 import android.Manifest;
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.example.todoandroid.ui.TasksViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.todoandroid.Constants;
+import com.example.todoandroid.domain.DateOnly;
+import com.example.todoandroid.R;
+import com.example.todoandroid.domain.Task;
+import com.example.todoandroid.viewmodel.TasksViewModel;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -29,9 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.todoandroid.databinding.ActivityMainBinding;
 
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

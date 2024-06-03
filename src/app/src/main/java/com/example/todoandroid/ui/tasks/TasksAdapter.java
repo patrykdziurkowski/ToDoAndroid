@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoandroid.Constants;
-import com.example.todoandroid.DateOnly;
-import com.example.todoandroid.Task;
+import com.example.todoandroid.domain.DateOnly;
+import com.example.todoandroid.domain.Task;
 import com.example.todoandroid.databinding.FrameTaskBinding;
 
 import java.util.Calendar;

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.todoandroid.databinding.FragmentDetailsBinding;
+import com.example.todoandroid.viewmodel.DetailsViewModel;
 
 public class DetailsFragment extends Fragment {
 

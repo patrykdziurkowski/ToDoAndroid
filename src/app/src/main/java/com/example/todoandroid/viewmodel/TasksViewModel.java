@@ -1,12 +1,12 @@
-package com.example.todoandroid.ui;
+package com.example.todoandroid.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.todoandroid.DateOnly;
-import com.example.todoandroid.Task;
-import com.example.todoandroid.TaskRepository;
+import com.example.todoandroid.domain.DateOnly;
+import com.example.todoandroid.domain.Task;
+import com.example.todoandroid.repository.TaskRepository;
 import com.example.todoandroid.TaskSortingStrategyFactory;
 
 import java.util.List;
