@@ -19,8 +19,8 @@ public class Task {
             UUID id,
             String title,
             String description,
-            DateOnly deadline,
-            DateOnly dateAdded
+            DateOnly dateAdded,
+            DateOnly deadline
     ) {
         this.id = id;
         this.title = title;
@@ -35,7 +35,7 @@ public class Task {
             String description,
             DateOnly dateAdded
     ) {
-        this(id, title, description, null, dateAdded);
+        this(id, title, description, dateAdded, null);
     }
 
     public Task setTitle(String title) {

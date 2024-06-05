@@ -73,6 +73,12 @@ public class TasksViewModel extends ViewModel {
         sortTasks();
     }
 
+    public void importTasks(List<Task> importedTasks) {
+        for (Task task : importedTasks) {
+            taskRepository.save(task);
+        }
+    }
+
     public void removeTask(UUID id) {
         Optional<Task> taskResult = taskRepository.getTaskById(id);
         if (!taskResult.isPresent()) return;
