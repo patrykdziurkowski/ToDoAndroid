@@ -1,5 +1,7 @@
 package com.example.todoandroid.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,9 +13,8 @@ public class Task {
     private Optional<DateOnly> deadline;
     private boolean isCompleted = false;
     private boolean isMarkedForDeletion = false;
+    private final List<UUID> attachmentIds = new ArrayList<>();
     private TaskPriority priority = TaskPriority.NORMAL;
-
-    public enum TaskPriority { IMPORTANT, NORMAL }
 
     public Task(
             UUID id,
@@ -100,4 +101,10 @@ public class Task {
     public TaskPriority getPriority() {
         return priority;
     }
+
+    public List<UUID> getAttachmentIds() {
+        return attachmentIds;
+    }
+
+    public enum TaskPriority { IMPORTANT, NORMAL }
 }

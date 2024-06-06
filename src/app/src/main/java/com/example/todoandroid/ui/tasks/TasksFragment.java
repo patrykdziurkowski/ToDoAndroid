@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -43,12 +46,15 @@ public class TasksFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        TasksAdapter adapter = new TasksAdapter(viewModel.getTasks().getValue());
+        TasksAdapter adapter = new TasksAdapter(
+                viewModel.getTasks().getValue(),
+                viewModel.getAttachments().getValue());
         RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         viewModel.getTasks().observe(getViewLifecycleOwner(), adapter::setTasks);
+        viewModel.getAttachments().observe(getViewLifecycleOwner(), adapter::setAttachments);
 
         adapter.setDeleteClickListener((task) -> {
             viewModel.removeTask(task.getId());
@@ -68,6 +74,18 @@ public class TasksFragment extends Fragment {
         });
         adapter.setDateClickListener((task) -> {
             viewModel.save(task);
+        });
+
+        ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+                registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                    if (uri == null) return;
+                    viewModel.addAttachment(uri);
+                });
+        adapter.setAttachmentAddClickListener((task) -> {
+            viewModel.rememberTaskToAttachTo(task.getId());
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
         });
     }
 

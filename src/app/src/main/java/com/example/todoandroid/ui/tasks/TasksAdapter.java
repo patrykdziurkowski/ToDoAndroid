@@ -1,31 +1,43 @@
 package com.example.todoandroid.ui.tasks;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.todoandroid.Constants;
+import com.example.todoandroid.domain.Attachment;
 import com.example.todoandroid.domain.DateOnly;
 import com.example.todoandroid.domain.Task;
 import com.example.todoandroid.databinding.FrameTaskBinding;
+import com.example.todoandroid.ui.BaseActivityResult;
+import com.example.todoandroid.ui.MainActivity;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> {
     private List<Task> tasks;
+    private List<Attachment> attachments;
     private TaskClickListener deleteClickListener;
     private TaskClickListener completeClickListener;
     private TaskClickListener editClickListener;
     private TaskClickListener importanceClickListener;
     private TaskClickListener dateClickListener;
+    private TaskClickListener attachmentAddClickListener;
 
-    public TasksAdapter(List<Task> tasks) {
+    public TasksAdapter(
+            List<Task> tasks,
+            List<Attachment> attachments) {
         this.tasks = tasks;
+        this.attachments = attachments;
     }
 
     @NonNull
@@ -43,7 +55,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 completeClickListener,
                 editClickListener,
                 importanceClickListener,
-                dateClickListener);
+                dateClickListener,
+                attachmentAddClickListener);
     }
 
     @Override
@@ -59,6 +72,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         } else {
             holder.binding.taskDeadline.setText("");
         }
+
+        List<Attachment> taskAttachments = attachments.stream()
+                .filter((a) -> a.getTaskId() == currentTask.getId())
+                .collect(Collectors.toList());
+        AttachmentsAdapter adapter = new AttachmentsAdapter(taskAttachments);
+        RecyclerView recyclerView = holder.binding.taskAttachments;
+        recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -86,8 +107,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         this.dateClickListener = dateClickListener;
     }
 
+    public void setAttachmentAddClickListener(TaskClickListener attachmentAddClickListener) {
+        this.attachmentAddClickListener = attachmentAddClickListener;
+    }
+
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+        notifyDataSetChanged();
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
         notifyDataSetChanged();
     }
 
@@ -102,9 +132,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 TaskClickListener completeClickListener,
                 TaskClickListener editClickListener,
                 TaskClickListener importanceClickListener,
-                TaskClickListener dateClickListener) {
+                TaskClickListener dateClickListener,
+                TaskClickListener attachmentAddClickListener) {
             super(binding.getRoot());
             this.binding = binding;
+
+            binding.taskAddAttachment.setOnClickListener((view) -> {
+                if (attachmentAddClickListener == null) return;
+                Task task = tasks.get(getAdapterPosition());
+                attachmentAddClickListener.onClick(task);
+            });
 
             binding.taskDeadline.setOnLongClickListener((view) -> {
                 Task task = tasks.get(getAdapterPosition());
