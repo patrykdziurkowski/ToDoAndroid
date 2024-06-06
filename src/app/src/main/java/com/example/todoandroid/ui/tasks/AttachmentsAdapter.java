@@ -14,6 +14,7 @@ import java.util.List;
 
 public class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.ViewHolder> {
     private List<Attachment> taskAttachments;
+    private AttachmentClickListener attachmentRemoveClickListener;
 
     public AttachmentsAdapter(List<Attachment> attachments) {
         this.taskAttachments = attachments;
@@ -35,12 +36,20 @@ public class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.
         FrameAttachmentBinding holderBinding = holder.getBinding();
 
         Uri uri = taskAttachments.get(position).getUri();
-        holderBinding.imageView.setImageURI(uri);
+        holderBinding.attachmentImage.setImageURI(uri);
+        holderBinding.attachmentRemove.setOnClickListener((view) -> {
+            if (attachmentRemoveClickListener == null) return;
+            attachmentRemoveClickListener.onClick(taskAttachments.get(position));
+        });
     }
 
     @Override
     public int getItemCount() {
         return taskAttachments.size();
+    }
+
+    public void setAttachmentRemoveClickListener(AttachmentClickListener attachmentRemoveClickListener) {
+        this.attachmentRemoveClickListener = attachmentRemoveClickListener;
     }
 
     public List<Attachment> getTaskAttachments() {
@@ -63,5 +72,9 @@ public class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.
         public FrameAttachmentBinding getBinding() {
             return binding;
         }
+    }
+
+    public interface AttachmentClickListener {
+        void onClick(Attachment attachment);
     }
 }

@@ -32,6 +32,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
     private TaskClickListener importanceClickListener;
     private TaskClickListener dateClickListener;
     private TaskClickListener attachmentAddClickListener;
+    private AttachmentsAdapter.AttachmentClickListener attachmentRemoveClickListener;
 
     public TasksAdapter(
             List<Task> tasks,
@@ -80,6 +81,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         RecyclerView recyclerView = holder.binding.taskAttachments;
         recyclerView.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
         recyclerView.setAdapter(adapter);
+        adapter.setAttachmentRemoveClickListener(attachmentRemoveClickListener);
     }
 
     @Override
@@ -109,6 +111,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
     public void setAttachmentAddClickListener(TaskClickListener attachmentAddClickListener) {
         this.attachmentAddClickListener = attachmentAddClickListener;
+    }
+
+    public void setAttachmentRemoveClickListener(AttachmentsAdapter.AttachmentClickListener attachmentRemoveClickListener) {
+        this.attachmentRemoveClickListener = attachmentRemoveClickListener;
     }
 
     public void setTasks(List<Task> tasks) {

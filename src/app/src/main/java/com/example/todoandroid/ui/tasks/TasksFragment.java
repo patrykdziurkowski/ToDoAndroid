@@ -87,6 +87,9 @@ public class TasksFragment extends Fragment {
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
         });
+        adapter.setAttachmentRemoveClickListener((attachment) -> {
+           viewModel.removeAttachment(attachment.getId());
+        });
     }
 
     private void setupTaskCreationActivityLauncher() {

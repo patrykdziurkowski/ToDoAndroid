@@ -147,6 +147,19 @@ public class TasksViewModel extends ViewModel {
         attachmentRepository.save(attachment);
     }
 
+    public void removeAttachment(UUID attachmentId) {
+        List<Attachment> currentAttachments = attachments.getValue();
+        Attachment attachment = currentAttachments.stream()
+                .filter(a -> a.getId() == attachmentId)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+        currentAttachments.remove(attachment);
+        attachments.setValue(currentAttachments);
+
+        attachment.setMarkedForDeletion(true);
+        attachmentRepository.save(attachment);
+    }
+
     public LiveData<List<Task>> getTasks() {
         return tasks;
     }
