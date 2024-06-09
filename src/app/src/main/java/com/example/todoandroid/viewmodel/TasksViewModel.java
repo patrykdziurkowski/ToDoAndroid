@@ -44,7 +44,6 @@ public class TasksViewModel extends ViewModel {
 
         tasks.setValue(taskRepository.getTasks());
         attachments.setValue(attachmentRepository.getAttachments());
-        attachments.setValue(new ArrayList<>());
         sortTasks();
     }
 
