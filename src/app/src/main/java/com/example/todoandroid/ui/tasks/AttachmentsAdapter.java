@@ -2,6 +2,7 @@ package com.example.todoandroid.ui.tasks;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.ViewHolder> {
     private List<Attachment> taskAttachments;
-    private AttachmentClickListener attachmentRemoveClickListener;
+    private TasksAdapter.OnClickListener attachmentRemoveClickListener;
 
     public AttachmentsAdapter(List<Attachment> attachments) {
         this.taskAttachments = attachments;
@@ -39,7 +40,7 @@ public class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.
         holderBinding.attachmentImage.setImageURI(uri);
         holderBinding.attachmentRemove.setOnClickListener((view) -> {
             if (attachmentRemoveClickListener == null) return;
-            attachmentRemoveClickListener.onClick(taskAttachments.get(position));
+            attachmentRemoveClickListener.onClick(view, position);
         });
     }
 
@@ -48,7 +49,7 @@ public class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.
         return taskAttachments.size();
     }
 
-    public void setAttachmentRemoveClickListener(AttachmentClickListener attachmentRemoveClickListener) {
+    public void setAttachmentRemoveClickListener(TasksAdapter.OnClickListener attachmentRemoveClickListener) {
         this.attachmentRemoveClickListener = attachmentRemoveClickListener;
     }
 
@@ -72,9 +73,5 @@ public class AttachmentsAdapter extends RecyclerView.Adapter<AttachmentsAdapter.
         public FrameAttachmentBinding getBinding() {
             return binding;
         }
-    }
-
-    public interface AttachmentClickListener {
-        void onClick(Attachment attachment);
     }
 }

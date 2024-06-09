@@ -1,38 +1,32 @@
 package com.example.todoandroid.ui.tasks;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.todoandroid.Constants;
 import com.example.todoandroid.domain.Attachment;
-import com.example.todoandroid.domain.DateOnly;
 import com.example.todoandroid.domain.Task;
 import com.example.todoandroid.databinding.FrameTaskBinding;
-import com.example.todoandroid.ui.BaseActivityResult;
-import com.example.todoandroid.ui.MainActivity;
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> {
     private List<Task> tasks;
     private List<Attachment> attachments;
-    private TaskClickListener deleteClickListener;
-    private TaskClickListener completeClickListener;
-    private TaskClickListener editClickListener;
-    private TaskClickListener importanceClickListener;
-    private TaskClickListener dateClickListener;
-    private TaskClickListener attachmentAddClickListener;
-    private AttachmentsAdapter.AttachmentClickListener attachmentRemoveClickListener;
+    private OnClickListener deleteClickListener;
+    private OnClickListener completeClickListener;
+    private OnClickListener descriptionClickListener;
+    private OnClickListener titleClickListener;
+    private OnClickListener importanceClickListener;
+    private OnClickListener dateClickListener;
+    private OnClickListener attachmentAddClickListener;
+    private OnClickListener attachmentRemoveClickListener;
 
     public TasksAdapter(
             List<Task> tasks,
@@ -51,10 +45,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
         return new TaskHolder(
                 holderBinding,
-                tasks,
                 deleteClickListener,
                 completeClickListener,
-                editClickListener,
+                descriptionClickListener,
+                titleClickListener,
                 importanceClickListener,
                 dateClickListener,
                 attachmentAddClickListener);
@@ -75,7 +69,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         }
 
         List<Attachment> taskAttachments = attachments.stream()
-                .filter((a) -> a.getTaskId() == currentTask.getId())
+                .filter((a) -> currentTask.getId().equals(a.getTaskId()))
                 .collect(Collectors.toList());
         AttachmentsAdapter adapter = new AttachmentsAdapter(taskAttachments);
         RecyclerView recyclerView = holder.binding.taskAttachments;
@@ -89,31 +83,35 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         return tasks.size();
     }
 
-    public void setDeleteClickListener(TaskClickListener deleteClickListener) {
+    public void setDeleteClickListener(OnClickListener deleteClickListener) {
         this.deleteClickListener = deleteClickListener;
     }
 
-    public void setCompleteClickListener(TaskClickListener completeClickListener) {
+    public void setCompleteClickListener(OnClickListener completeClickListener) {
         this.completeClickListener = completeClickListener;
     }
 
-    public void setEditClickListener(TaskClickListener editClickListener) {
-        this.editClickListener = editClickListener;
+    public void setDescriptionClickListener(OnClickListener descriptionClickListener) {
+        this.descriptionClickListener = descriptionClickListener;
     }
 
-    public void setImportanceClickListener(TaskClickListener importanceClickListener) {
+    public void setTitleClickListener(OnClickListener titleClickListener) {
+        this.titleClickListener = titleClickListener;
+    }
+
+    public void setImportanceClickListener(OnClickListener importanceClickListener) {
         this.importanceClickListener = importanceClickListener;
     }
 
-    public void setDateClickListener(TaskClickListener dateClickListener) {
+    public void setDateClickListener(OnClickListener dateClickListener) {
         this.dateClickListener = dateClickListener;
     }
 
-    public void setAttachmentAddClickListener(TaskClickListener attachmentAddClickListener) {
+    public void setAttachmentAddClickListener(OnClickListener attachmentAddClickListener) {
         this.attachmentAddClickListener = attachmentAddClickListener;
     }
 
-    public void setAttachmentRemoveClickListener(AttachmentsAdapter.AttachmentClickListener attachmentRemoveClickListener) {
+    public void setAttachmentRemoveClickListener(OnClickListener attachmentRemoveClickListener) {
         this.attachmentRemoveClickListener = attachmentRemoveClickListener;
     }
 
@@ -133,55 +131,40 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
         public TaskHolder(
                 FrameTaskBinding binding,
-                List<Task> tasks,
-                TaskClickListener deleteClickListener,
-                TaskClickListener completeClickListener,
-                TaskClickListener editClickListener,
-                TaskClickListener importanceClickListener,
-                TaskClickListener dateClickListener,
-                TaskClickListener attachmentAddClickListener) {
+                OnClickListener deleteClickListener,
+                OnClickListener completeClickListener,
+                OnClickListener descriptionClickListener,
+                OnClickListener titleClickListener,
+                OnClickListener importanceClickListener,
+                OnClickListener dateClickListener,
+                OnClickListener attachmentAddClickListener) {
             super(binding.getRoot());
             this.binding = binding;
 
             binding.taskAddAttachment.setOnClickListener((view) -> {
                 if (attachmentAddClickListener == null) return;
-                Task task = tasks.get(getAdapterPosition());
-                attachmentAddClickListener.onClick(task);
+                attachmentAddClickListener.onClick(view, getAdapterPosition());
             });
 
             binding.taskDeadline.setOnLongClickListener((view) -> {
-                Task task = tasks.get(getAdapterPosition());
-                Calendar c = Calendar.getInstance();
-                int year = c.get(Calendar.YEAR);
-                int month = c.get(Calendar.MONTH);
-                int day = c.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        view.getContext(),
-                        (v, y, m, d) -> {
-                            task.setDeadline(new DateOnly(y, m + Constants.INDEX_OFFSET, d));
-                            dateClickListener.onClick(task);
-                        },
-                        year, month, day);
-                datePickerDialog.show();
+                if (dateClickListener == null) return false;
+                dateClickListener.onClick(view, getAdapterPosition());
                 return true;
             });
 
             binding.taskRemove.setOnClickListener((view) -> {
                 if (deleteClickListener == null) { return; }
-                Task task = tasks.get(getAdapterPosition());
-                deleteClickListener.onClick(task);
+                deleteClickListener.onClick(view, getAdapterPosition());
             });
 
             binding.taskComplete.setOnClickListener((view) -> {
                 if (completeClickListener == null) { return; }
-                Task task = tasks.get(getAdapterPosition());
-                completeClickListener.onClick(task);
+                completeClickListener.onClick(view, getAdapterPosition());
             });
 
             binding.taskImportant.setOnClickListener((view) -> {
                 if (importanceClickListener == null) { return; }
-                Task task = tasks.get(getAdapterPosition());
-                importanceClickListener.onClick(task);
+                importanceClickListener.onClick(view, getAdapterPosition());
             });
 
             binding.taskTitle.setFocusable(false);
@@ -193,10 +176,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 if (hasFocus) return;
                 binding.taskTitle.setFocusable(false);
 
-                if (editClickListener == null) return;
-                Task task = tasks.get(getAdapterPosition());
-                task.setTitle(String.valueOf(binding.taskTitle.getText()));
-                editClickListener.onClick(task);
+                if (titleClickListener == null) return;
+                titleClickListener.onClick(view, getAdapterPosition());
             });
 
             binding.taskDescription.setFocusable(false);
@@ -208,10 +189,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 if (hasFocus) return;
                 binding.taskDescription.setFocusable(false);
 
-                if (editClickListener == null) return;
-                Task task = tasks.get(getAdapterPosition());
-                task.setDescription(String.valueOf(binding.taskDescription.getText()));
-                editClickListener.onClick(task);
+                if (descriptionClickListener == null) return;
+                descriptionClickListener.onClick(view, getAdapterPosition());
             });
         }
 
@@ -226,8 +205,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         }
     }
 
-
-    public interface TaskClickListener {
-        void onClick(Task task);
+    public interface OnClickListener {
+        void onClick(View view, int position);
     }
 }
