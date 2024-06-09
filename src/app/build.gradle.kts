@@ -48,4 +48,7 @@ dependencies {
 
     annotationProcessor("com.google.dagger:hilt-compiler:2.44")
     implementation("com.google.dagger:hilt-android:2.44")
+    testImplementation("org.mockito:mockito-core:4+")
+    testImplementation("org.robolectric:robolectric:4.10")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
 }
