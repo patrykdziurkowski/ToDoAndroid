@@ -2,13 +2,21 @@ package com.example.todoandroid.domain;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.util.UUID;
 
+@Entity
 public class Attachment {
+    @PrimaryKey
+    @NonNull
     private final UUID id;
     private final UUID taskId;
+    @TypeConverters(UriConverter.class)
     private final Uri uri;
-    private boolean isMarkedForDeletion = false;
 
     public Attachment(
             UUID id,
@@ -30,14 +38,5 @@ public class Attachment {
 
     public Uri getUri() {
         return uri;
-    }
-
-    public boolean isMarkedForDeletion() {
-        return isMarkedForDeletion;
-    }
-
-    public Attachment setMarkedForDeletion(boolean markedForDeletion) {
-        isMarkedForDeletion = markedForDeletion;
-        return this;
     }
 }

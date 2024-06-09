@@ -121,8 +121,8 @@ public class TasksFragment extends Fragment {
         viewModel.addTask(
                 data.getString("title"),
                 data.getString("description"),
-                parseResult.get(),
-                new DateOnly());
+                new DateOnly(),
+                parseResult.get());
     }
 
     @Override

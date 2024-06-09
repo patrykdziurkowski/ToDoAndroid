@@ -1,19 +1,27 @@
 package com.example.todoandroid.domain;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Entity
 public class Task {
+    @PrimaryKey
+    @NonNull
     private final UUID id;
     private String title;
     private String description;
+    @TypeConverters(DateOnly.class)
     private final DateOnly dateAdded;
+    @TypeConverters(DateOnly.class)
     private Optional<DateOnly> deadline;
     private boolean isCompleted = false;
-    private boolean isMarkedForDeletion = false;
-    private final List<UUID> attachmentIds = new ArrayList<>();
     private TaskPriority priority = TaskPriority.NORMAL;
 
     public Task(
@@ -39,39 +47,28 @@ public class Task {
         this(id, title, description, dateAdded, null);
     }
 
-    public Task setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
-        return this;
     }
 
-    public Task setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
-        return this;
     }
 
-    public Task setCompleted(boolean completed) {
-        isCompleted = completed;
-        return this;
-    }
-
-    public Task setDeadline(DateOnly deadline) {
-        this.deadline = Optional.ofNullable(deadline);
-        return this;
-    }
-
-    public Task setDeadline(Optional<DateOnly> deadline) {
+    public void setDeadline(Optional<DateOnly> deadline) {
         this.deadline = deadline;
-        return this;
     }
 
-    public Task setMarkedForDeletion(boolean markedForDeletion) {
-        isMarkedForDeletion = markedForDeletion;
-        return this;
+    public void setDeadline(DateOnly deadline) {
+        this.deadline = Optional.ofNullable(deadline);
     }
 
-    public Task setPriority(TaskPriority priority) {
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public void setPriority(TaskPriority priority) {
         this.priority = priority;
-        return this;
     }
 
     public UUID getId() { return id; }
@@ -92,8 +89,6 @@ public class Task {
         return dateAdded;
     }
 
-    public boolean isMarkedForDeletion() { return isMarkedForDeletion; }
-
     public Optional<DateOnly> getDeadline() {
         return deadline;
     }
@@ -102,9 +97,7 @@ public class Task {
         return priority;
     }
 
-    public List<UUID> getAttachmentIds() {
-        return attachmentIds;
-    }
+
 
     public enum TaskPriority { IMPORTANT, NORMAL }
 }

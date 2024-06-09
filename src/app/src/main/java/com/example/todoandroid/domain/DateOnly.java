@@ -1,5 +1,7 @@
 package com.example.todoandroid.domain;
 
+import androidx.room.TypeConverter;
+
 import com.example.todoandroid.Constants;
 
 import java.text.ParseException;
@@ -85,4 +87,32 @@ public class DateOnly implements Comparable<DateOnly> {
     public int getYear() { return date.getYear() + Constants.DATE_YEAR_OFFSET; }
     public int getMonth() { return date.getMonth() + 1; }
     public int getDayOfMonth() { return date.getDate(); }
+
+    @TypeConverter
+    public static DateOnly toDateOnly(Long timestamp) {
+        return (timestamp == null)
+                ? null
+                : new DateOnly(new Date(timestamp));
+    }
+
+    @TypeConverter
+    public static Long toTimestamp(DateOnly dateOnly) {
+        return (dateOnly == null)
+                ? null
+                : dateOnly.toDate().getTime();
+    }
+
+    @TypeConverter
+    public static Optional<DateOnly> toOptionalDateOnly(Long timestamp) {
+        return (timestamp == null)
+                ? Optional.empty()
+                : Optional.of(new DateOnly(new Date(timestamp)));
+    }
+
+    @TypeConverter
+    public static Long toTimestamp(Optional<DateOnly> dateOnly) {
+        return (!dateOnly.isPresent())
+                ? null
+                : dateOnly.get().toDate().getTime();
+    }
 }
