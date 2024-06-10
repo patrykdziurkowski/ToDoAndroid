@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.todoandroid.Constants;
 import com.example.todoandroid.domain.Attachment;
 import com.example.todoandroid.ui.BaseActivityResult;
-import com.example.todoandroid.ui.CreateTaskActivity;
 import com.example.todoandroid.domain.DateOnly;
 import com.example.todoandroid.domain.Task;
 import com.example.todoandroid.databinding.FragmentTasksBinding;
@@ -45,7 +44,6 @@ public class TasksFragment extends Fragment {
         binding = FragmentTasksBinding.inflate(inflater, container, false);
 
         setupRecyclerView();
-        setupTaskCreationActivityLauncher();
 
         return binding.getRoot();
     }
@@ -130,39 +128,6 @@ public class TasksFragment extends Fragment {
                             attachment.getUri(),
                             flags);
         });
-    }
-
-    private void setupTaskCreationActivityLauncher() {
-        binding.tasksAdd.setOnClickListener((view) -> {
-            Intent createTaskIntent = new Intent(getActivity(), CreateTaskActivity.class);
-            activityLauncher.launch(createTaskIntent, this::createTaskResult);
-        });
-    }
-
-    private void createTaskResult(ActivityResult result) {
-        if (result.getResultCode() != Activity.RESULT_OK) {
-            return;
-        }
-
-        Intent intent = result.getData();
-        if (intent == null) return;
-        Bundle data = intent.getExtras();
-        if (data == null) return;
-
-        Optional<DateOnly> parseResult = DateOnly.parse(data.getString("deadline"));
-        if (!parseResult.isPresent()) {
-            viewModel.addTask(
-                    data.getString("title"),
-                    data.getString("description"),
-                    new DateOnly());
-            return;
-        }
-
-        viewModel.addTask(
-                data.getString("title"),
-                data.getString("description"),
-                new DateOnly(),
-                parseResult.get());
     }
 
     @Override

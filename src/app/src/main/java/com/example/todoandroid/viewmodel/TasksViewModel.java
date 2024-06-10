@@ -15,6 +15,7 @@ import com.example.todoandroid.domain.DateOnly;
 import com.example.todoandroid.domain.Task;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -49,8 +50,7 @@ public class TasksViewModel extends ViewModel {
             String title,
             String description,
             DateOnly dateAdded,
-            DateOnly deadline
-    ) {
+            DateOnly deadline) {
         Task task = new Task(
                 UUID.randomUUID(),
                 title,
@@ -66,19 +66,8 @@ public class TasksViewModel extends ViewModel {
     public void addTask(
             String title,
             String description,
-            DateOnly dateAdded
-    ) {
-
-        Task task = new Task(
-                UUID.randomUUID(),
-                title,
-                description,
-                dateAdded
-        );
-
-        taskDao.insert(task);
-        tasks.setValue(taskDao.getTasks());
-        sortTasks();
+            DateOnly dateAdded) {
+        addTask(title, description, dateAdded, null);
     }
 
     public void importTasks(List<Task> importedTasks) {

@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_tasks" />
 
     <fragment
-        android:id="@+id/navigation_details"
-        android:name="com.example.todoandroid.ui.details.DetailsFragment"
-        android:label="@string/title_details"
-        tools:layout="@layout/fragment_details" />
+        android:id="@+id/navigation_create"
+        android:name="com.example.todoandroid.ui.create.CreateFragment"
+        android:label="@string/title_create"
+        tools:layout="@layout/fragment_create" />
 
     <fragment
         android:id="@+id/navigation_settings"
