@@ -28,7 +28,6 @@ import com.example.todoandroid.databinding.FragmentTasksBinding;
 import com.example.todoandroid.viewmodel.TasksViewModel;
 
 import java.util.Calendar;
-import java.util.Optional;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -36,7 +35,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class TasksFragment extends Fragment {
     private FragmentTasksBinding binding;
     private TasksViewModel viewModel;
-    private final BaseActivityResult<Intent, ActivityResult> activityLauncher = BaseActivityResult.registerActivityForResult(this);
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

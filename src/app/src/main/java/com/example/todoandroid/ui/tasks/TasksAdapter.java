@@ -192,6 +192,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 if (descriptionClickListener == null) return;
                 descriptionClickListener.onClick(view, getAdapterPosition());
             });
+
+            binding.taskCollapseAttachments.setOnClickListener((view) -> {
+                int visibility = binding.taskAttachmentsContainer.getVisibility();
+
+                if (visibility == View.GONE) {
+                    binding.taskAttachmentsContainer.setVisibility(View.VISIBLE);
+                } else {
+                    binding.taskAttachmentsContainer.setVisibility(View.GONE);
+                }
+            });
         }
 
         public void setCompleted(boolean completed) {
