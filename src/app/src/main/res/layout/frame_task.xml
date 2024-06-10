@@ -14,7 +14,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        app:cardBackgroundColor="#FF0303"
+        app:cardBackgroundColor="@color/task_lighter_grey"
+        app:cardCornerRadius="@dimen/corner_radius_default"
         app:contentPadding="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,27 +54,35 @@
                 app:layout_constraintStart_toStartOf="@+id/task_title"
                 app:layout_constraintTop_toBottomOf="@+id/task_title" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/task_remove"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="X"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/task_highlight"
+                android:src="@drawable/round_close_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/task_complete"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="V"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/task_darker_grey"
+                android:src="@drawable/round_check_24"
                 app:layout_constraintEnd_toStartOf="@+id/task_remove"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/task_important"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="*"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/task_darker_grey"
+                android:src="@drawable/round_star_border_24"
                 app:layout_constraintEnd_toStartOf="@+id/task_complete"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,7 +128,9 @@
                 android:id="@+id/task_collapse_attachments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
+                android:background="@android:color/transparent"
+                android:text="@string/button_collapse"
+                android:textColor="@color/task_darker_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/task_deadline_container" />
@@ -133,14 +144,15 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/task_collapse_attachments">
+                app:layout_constraintTop_toBottomOf="@+id/task_collapse_attachments"
+                tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/task_attachments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="48dp"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="0dp"
                     android:layout_marginEnd="48dp"
                     android:padding="0dp" />
 
@@ -148,7 +160,9 @@
                     android:id="@+id/task_add_attachment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:backgroundTint="@color/task_darker_grey"
+                    android:text="@string/button_attach"
+                    app:cornerRadius="10dp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

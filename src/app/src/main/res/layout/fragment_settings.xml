@@ -20,19 +20,20 @@
             android:id="@+id/settings_sort_date_added"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date Added" />
+            android:text="@string/radio_date_added" />
 
         <RadioButton
             android:id="@+id/settings_sort_deadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Deadline" />
+            android:buttonTint="@color/task_highlight"
+            android:text="@string/radio_deadline" />
 
         <RadioButton
             android:id="@+id/settings_sort_importance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Importance" />
+            android:text="@string/radio_importance" />
     </RadioGroup>
 
     <TextView
@@ -40,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Sort tasks by:"
+        android:text="@string/label_sort"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Save or read tasks from a file:"
+        android:text="@string/label_file"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_sort" />
@@ -61,7 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="16dp"
-        android:text="Export..."
+        android:backgroundTint="@color/task_darker_grey"
+        android:text="@string/button_export"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_file_label" />
 
@@ -71,7 +73,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="72dp"
-        android:text="Import..."
+        android:backgroundTint="@color/task_darker_grey"
+        android:text="@string/button_import"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/settings_file_label" />
 </androidx.constraintlayout.widget.ConstraintLayout>

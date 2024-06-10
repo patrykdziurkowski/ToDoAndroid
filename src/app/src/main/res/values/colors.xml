@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="task_darker_grey">#A48A8A</color>
+    <color name="task_lighter_grey">#DCD3D3</color>
+    <color name="tasks_background">#EEEEEE</color>
+    <color name="task_completed">#79D579</color>
+    <color name="task_important">#FF0000</color>
+    <color name="task_highlight">#D06363</color>
+    <color name="dark_grey">#3F3F3F</color>
 </resources>

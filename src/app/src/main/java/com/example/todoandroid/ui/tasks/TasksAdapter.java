@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.todoandroid.R;
 import com.example.todoandroid.domain.Attachment;
 import com.example.todoandroid.domain.Task;
 import com.example.todoandroid.databinding.FrameTaskBinding;
@@ -205,13 +207,23 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         }
 
         public void setCompleted(boolean completed) {
-            int color = (completed) ? Color.GREEN : Color.GRAY;
-            binding.taskCard.setBackgroundColor(color);
+            if (completed) {
+                binding.taskCard.setCardBackgroundColor(
+                        ContextCompat.getColorStateList(itemView.getContext(), R.color.task_completed));
+            } else {
+                binding.taskCard.setCardBackgroundColor(
+                        ContextCompat.getColorStateList(itemView.getContext(), R.color.task_lighter_grey));
+            }
         }
 
         public void setImportant(boolean important) {
-            int color = (important) ? Color.RED : Color.LTGRAY;
-            binding.taskImportant.setBackgroundColor(color);
+            if (important) {
+                binding.taskImportant.setBackgroundTintList(
+                        ContextCompat.getColorStateList(itemView.getContext(), R.color.task_important));
+            } else {
+                binding.taskImportant.setBackgroundTintList(
+                        ContextCompat.getColorStateList(itemView.getContext(), R.color.task_darker_grey));
+            }
         }
     }
 

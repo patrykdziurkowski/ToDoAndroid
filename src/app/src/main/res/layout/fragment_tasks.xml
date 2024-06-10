@@ -11,6 +11,7 @@
         android:layout_width="412dp"
         android:layout_height="675dp"
         android:background="#ECBCBC"
+        android:backgroundTint="@color/white"
         android:paddingBottom="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

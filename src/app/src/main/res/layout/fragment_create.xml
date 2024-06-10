@@ -14,7 +14,7 @@
         android:layout_marginTop="48dp"
         android:digits="0123456789*,:&apos;()-=+_&amp;^%$#!@`~[]{}&lt;&gt;./?\|qwertzuiopasdfghjklyxcvbnm"
         android:ems="10"
-        android:hint="Title"
+        android:hint="@string/input_hint_title"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_marginTop="24dp"
         android:digits="0123456789*,:&apos;()-=+_&amp;^%$#!@`~[]{}&lt;&gt;./?\|qwertzuiopasdfghjklyxcvbnm"
         android:ems="10"
-        android:hint="Description"
+        android:hint="@string/input_hint_description"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
         android:ems="10"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:hint="Deadline (optional)"
+        android:hint="@string/input_hint_deadline"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,10 +51,12 @@
         android:id="@+id/create_task_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/task_darker_grey"
+        android:text="@string/button_create"
+        app:cornerRadius="@dimen/corner_radius_default"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create_task_deadline" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
